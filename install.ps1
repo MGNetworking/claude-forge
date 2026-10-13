@@ -1,106 +1,76 @@
-#Requires -RunAsAdministrator
-# install.ps1 — Installe les liens symboliques du dépôt dotfiles dans ~/.claude/
+# install.ps1 - Installe le plugin Claude Code "forge" depuis le catalogue "dotfiles"
+#
+# Ne cree aucun lien et ne modifie ni ~/.claude/commands ni ~/.claude/skills :
+# l'installation passe par le gestionnaire de plugins de Claude Code.
+# Les autres plugins et catalogues ne sont pas touches.
+# Relancer le script met a jour le catalogue et le plugin.
+
+$ErrorActionPreference = "Stop"
 
 $DOTFILES_DIR = $PSScriptRoot
-$CLAUDE_DIR = "$env:USERPROFILE\.claude"
+$CLAUDE_DIR   = "$env:USERPROFILE\.claude"
+$MARKETPLACE  = "dotfiles"
+$PLUGIN       = "forge@dotfiles"
 
-function Write-Info    { param($msg) Write-Host "[OK] $msg" -ForegroundColor Green }
+function Write-Info     { param($msg) Write-Host "[OK] $msg" -ForegroundColor Green }
 function Write-Warning2 { param($msg) Write-Host "[!]  $msg" -ForegroundColor Yellow }
+function Write-Fail     { param($msg) Write-Host "[X]  $msg" -ForegroundColor Red; exit 1 }
 
-Write-Host ""
-Write-Host "=== Installation des dotfiles Claude Code ===" -ForegroundColor Cyan
-Write-Host "Source : $DOTFILES_DIR"
-Write-Host "Cible  : $CLAUDE_DIR"
-Write-Host ""
-
-if (-not (Test-Path $CLAUDE_DIR)) {
-    New-Item -ItemType Directory -Path $CLAUDE_DIR | Out-Null
+function Invoke-Claude {
+    & claude @args
+    if ($LASTEXITCODE -ne 0) { Write-Fail "Echec de : claude $($args -join ' ')" }
 }
 
-$script:LastBackup = ""
+Write-Host ""
+Write-Host "=== Installation du plugin forge ===" -ForegroundColor Cyan
+Write-Host "Catalogue : $DOTFILES_DIR"
+Write-Host ""
 
-function New-Link {
-    param([string]$Src, [string]$Dst)
+# 1. Claude Code doit etre installe
+if (-not (Get-Command claude -ErrorAction SilentlyContinue)) {
+    Write-Fail "Claude Code est introuvable. Installe-le : https://claude.com/claude-code"
+}
+Write-Info "Claude Code $((& claude --version) -join ' ')"
 
-    $script:LastBackup = ""
-    $name = Split-Path $Dst -Leaf
-
-    if (Test-Path $Dst) {
-        $item = Get-Item $Dst -Force
-        if ($item.LinkType -eq "SymbolicLink") {
-            if ($item.Target -eq $Src) {
-                Write-Info "$name => deja lie (aucune action)"
-                return
-            }
-            Write-Warning2 "$name => lien existant, remplacement..."
-            Remove-Item $Dst -Force
-        } else {
-            $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-            $backup = "${Dst}.backup.$timestamp"
-            Write-Warning2 "$name => dossier existant, sauvegarde dans $backup"
-            Move-Item $Dst $backup
-            $script:LastBackup = $backup
+# 2. Une ancienne installation par liens symboliques bloquerait le retour a l'etat de base
+foreach ($name in "commands", "skills") {
+    $path = Join-Path $CLAUDE_DIR $name
+    if (Test-Path $path) {
+        $item = Get-Item $path -Force
+        if ($item.LinkType -and "$($item.Target)" -like "$DOTFILES_DIR*") {
+            Write-Warning2 "$path est un lien vers ce depot (ancienne installation)."
+            Write-Host     "     Supprime le lien seul, sans toucher au depot, puis relance ce script :"
+            Write-Host     "     cmd /c rmdir `"$path`""
+            exit 1
         }
     }
-
-    New-Item -ItemType SymbolicLink -Path $Dst -Target $Src | Out-Null
-    Write-Info "$name => lie vers $Src"
 }
 
-function Check-Backup {
-    param([string]$Backup, [string]$Src)
-
-    if (-not $Backup) { return }
-    if (-not (Test-Path $Backup)) { return }
-
-    $files = Get-ChildItem $Backup -File
-    $onlyInBackup = @()
-    foreach ($f in $files) {
-        $target = Join-Path $Src $f.Name
-        if (-not (Test-Path $target)) {
-            $onlyInBackup += $f.Name
-        }
-    }
-
-    if ($onlyInBackup.Count -eq 0) {
-        Write-Info "Backup identique au depot - tu peux le supprimer :"
-        Write-Host "    Remove-Item -Recurse -Force `"$Backup`""
-    } else {
-        Write-Warning2 "Le backup contient des fichiers absents du depot :"
-        foreach ($f in $onlyInBackup) {
-            Write-Host "    - $f"
-        }
-        Write-Warning2 "Ajoute ces fichiers au depot avant de supprimer le backup."
-    }
+# 3. Le catalogue
+$marketplaces = (& claude plugin marketplace list --json) | ConvertFrom-Json
+if ($marketplaces | Where-Object { $_.name -eq $MARKETPLACE }) {
+    Invoke-Claude plugin marketplace update $MARKETPLACE
+    Write-Info "Catalogue $MARKETPLACE mis a jour"
+} else {
+    Invoke-Claude plugin marketplace add $DOTFILES_DIR
+    Write-Info "Catalogue $MARKETPLACE ajoute"
 }
 
-New-Link "$DOTFILES_DIR\claude\commands" "$CLAUDE_DIR\commands"
-$CommandsBackup = $script:LastBackup
+# 4. Le plugin
+$plugins = (& claude plugin list --json) | ConvertFrom-Json
+if ($plugins | Where-Object { $_.id -eq $PLUGIN }) {
+    Invoke-Claude plugin update $PLUGIN
+    Write-Info "Plugin $PLUGIN mis a jour"
+} else {
+    Invoke-Claude plugin install $PLUGIN --scope user
+    Write-Info "Plugin $PLUGIN installe"
+}
 
-New-Link "$DOTFILES_DIR\claude\skills" "$CLAUDE_DIR\skills"
-$SkillsBackup = $script:LastBackup
-
+$installed = ((& claude plugin list --json) | ConvertFrom-Json) | Where-Object { $_.id -eq $PLUGIN }
 Write-Host ""
-Write-Host "=== Analyse des sauvegardes ===" -ForegroundColor Cyan
-Write-Host ""
-
-if ($CommandsBackup) {
-    Write-Host "Backup commands : $CommandsBackup"
-    Check-Backup $CommandsBackup "$DOTFILES_DIR\claude\commands"
-    Write-Host ""
-}
-
-if ($SkillsBackup) {
-    Write-Host "Backup skills : $SkillsBackup"
-    Check-Backup $SkillsBackup "$DOTFILES_DIR\claude\skills"
-    Write-Host ""
-}
-
-if (-not $CommandsBackup -and -not $SkillsBackup) {
-    Write-Info "Aucun backup cree."
-    Write-Host ""
-}
-
 Write-Host "=== Installation terminee ===" -ForegroundColor Cyan
+Write-Host "Version : $($installed.version)"
+Write-Host "Dossier : $($installed.installPath)"
 Write-Host ""
-Write-Host "Lance Claude Code pour utiliser les commandes."
+Write-Host "Ouvre une nouvelle session Claude Code ; les commandes s'appellent /forge:<nom>."
+Write-Host "Liste des commandes : README.md"
