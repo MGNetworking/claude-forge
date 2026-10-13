@@ -1,0 +1,33 @@
+# Cycle « développement » : de la tâche au code relu (palier 2 d'agent-engine).
+# Format PROPOSÉ (v0) : il sera fixé quand agent-engine saura exécuter les cycles.
+# Le moteur ne connaît aucun rôle ni aucun cycle par son nom : tout est décrit ici.
+name: developpement
+description: Concevoir, écrire les tests, coder, relire
+start: conception
+
+nodes:
+  conception:
+    role: architect
+    livrable: document        # sortie structurée, validée par le programme…
+    schema: plan              # …contre schemas/plan.yaml, puis contre le dépôt (fichiers existants ou non)
+    outils: lecture           # Read, Glob, Grep : ne peut rien modifier
+  tests:
+    role: tester
+    livrable: rouge           # les nouveaux tests échouent, les tests existants passent (profil du projet)
+  code:
+    role: coder
+    livrable: fichiers        # vérifications du profil vertes, projet modifié, tests existants intacts
+  relecture:
+    role: reviewer
+    livrable: verdict         # accepte | refuse, validé contre schemas/verdict.yaml
+    outils: lecture
+
+transitions:                  # d'un nœud vers le suivant, selon le résultat VÉRIFIÉ du nœud
+  conception: { valide: tests }
+  tests: { valide: code }
+  code: { valide: relecture }
+  relecture: { accepte: fin, refuse: code }   # un verdict ne peut que renvoyer au travail
+
+limits:
+  tours_par_noeud: 8          # la boucle d'un nœud (comme agent run --max-tours)
+  allers_retours: 3           # relecture → code au plus 3 fois, puis échec du cycle
