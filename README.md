@@ -94,6 +94,36 @@ Ouvrir ensuite une **nouvelle session** Claude Code.
 Augmenter la `version` de `claude/.claude-plugin/plugin.json`, puis relancer le script d'installation : il
 met à jour le catalogue et le plugin.
 
+### Quelle version est utilisée
+
+Claude Code n'exécute jamais les fichiers du dépôt : il installe une **copie** du plugin, une par version.
+
+```
+C:\Users\<utilisateur>\.claude\plugins\cache\dotfiles\forge\
+├── 0.1.0\   ← ancienne version : plus référencée, plus utilisée
+└── 0.2.0\   ← version active
+```
+
+1. **À l'installation ou à la mise à jour**, Claude Code écrit dans son registre
+   (`~/.claude/plugins/installed_plugins.json`) **une seule entrée** pour `forge@dotfiles` : la version, le
+   dossier (`installPath`) et le commit installés. Une mise à jour **remplace** cette entrée.
+2. **Au démarrage d'une session**, Claude Code lit ce registre et charge les commandes et les skills depuis
+   `installPath`.
+3. **À l'appel d'une commande** (`/forge:…`), il exécute ce qu'il a chargé au démarrage : aucun choix de
+   version n'a lieu à ce moment-là.
+
+Conséquences :
+
+- Une session déjà ouverte garde la version chargée à son démarrage : ouvrir une **nouvelle session** après
+  une mise à jour (« Restart to apply changes »).
+- Un ancien dossier de version n'est plus utilisé ; il peut être supprimé.
+- agent-engine suit la même règle : `claude plugin list --json` renvoie l'`installPath` de la version active.
+- Pour voir la version active :
+
+  ```bash
+  claude plugin list --json
+  ```
+
 ### Désinstaller
 
 ```powershell
