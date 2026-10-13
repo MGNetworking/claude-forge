@@ -24,7 +24,7 @@ Si appelé seul (sans argument), poser les questions suivantes :
 
 5. **Package manager** ? (si Node.js : npm / yarn / pnpm)
 
-Si appelé depuis `/git-setup`, utiliser les arguments fournis directement.
+Si appelé depuis `/forge:git-setup`, utiliser les arguments fournis directement.
 
 ---
 
@@ -130,7 +130,7 @@ jobs:
 
 ## Notes importantes
 
-- Le workflow `release` nécessite les fichiers créés par `/git-setup-release-please`
+- Le workflow `release` nécessite les fichiers créés par `/forge:git-setup-release-please`
 - Les permissions `contents: write` et `pull-requests: write` sont requises pour Release Please
 - Le cache du package manager accélère significativement les builds CI
 

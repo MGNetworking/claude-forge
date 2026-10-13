@@ -96,12 +96,12 @@ Demander confirmation : **"Je lance l'initialisation ?"**
 
 Une fois confirmé, exécuter dans l'ordre :
 
-1. `/git-setup-branches` avec la stratégie choisie
-2. `/git-setup-gitignore` avec le langage et l'OS
-3. `/git-setup-gitattributes` avec l'OS
-4. `/git-setup-release-please` si activé
-5. `/git-setup-actions` si activé
-6. `/git-setup-github` si activé (créer le dépôt, description, topics, remote, protection)
+1. `/forge:git-setup-branches` avec la stratégie choisie
+2. `/forge:git-setup-gitignore` avec le langage et l'OS
+3. `/forge:git-setup-gitattributes` avec l'OS
+4. `/forge:git-setup-release-please` si activé
+5. `/forge:git-setup-actions` si activé
+6. `/forge:git-setup-github` si activé (créer le dépôt, description, topics, remote, protection)
 
 Confirmer chaque étape à l'utilisateur au fur et à mesure.
 

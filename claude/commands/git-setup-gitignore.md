@@ -34,7 +34,7 @@ Si appelé seul (sans argument), poser les questions suivantes :
    - Les deux
    - Autre
 
-Si appelé depuis `/git-setup`, utiliser les arguments fournis directement.
+Si appelé depuis `/forge:git-setup`, utiliser les arguments fournis directement.
 
 ---
 
