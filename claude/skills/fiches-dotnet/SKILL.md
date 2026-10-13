@@ -8,18 +8,18 @@ description: "Fiches de révision .NET — liste les modules disponibles ou ouvr
 ## Utilisation
 
 ```
-/fiches-dotnet               → Affiche le menu de tous les modules
-/fiches-dotnet api           → REST API, DTOs, DI, async/await, tests unitaires
-/fiches-dotnet architecture  → SOLID, DDD (Aggregate Root, Value Object)
-/fiches-dotnet efcore        → EF Core avancé : providers, IQueryable, N+1, migrations
-/fiches-dotnet efcore-setup  → EF Core setup : packages, DbContext, migrations, AppDbContextFactory
-/fiches-dotnet patterns      → FluentValidation, AutoMapper, Logging, Options Pattern
-/fiches-dotnet security      → JWT, versioning d'API, OpenAPI/Swagger
-/fiches-dotnet testing       → Tests unitaires (xUnit, Moq, controllers)
-/fiches-dotnet advanced      → Clean Architecture, CQRS, MediatR
-/fiches-dotnet performance     → HttpClient, Background Services, Caching, Minimal APIs
-/fiches-dotnet multitenancy   → Multi-tenancy : row-level, HasQueryFilter, ITenantResolver
-/fiches-dotnet niveau         → Tableau de progression marché
+/forge:fiches-dotnet               → Affiche le menu de tous les modules
+/forge:fiches-dotnet api           → REST API, DTOs, DI, async/await, tests unitaires
+/forge:fiches-dotnet architecture  → SOLID, DDD (Aggregate Root, Value Object)
+/forge:fiches-dotnet efcore        → EF Core avancé : providers, IQueryable, N+1, migrations
+/forge:fiches-dotnet efcore-setup  → EF Core setup : packages, DbContext, migrations, AppDbContextFactory
+/forge:fiches-dotnet patterns      → FluentValidation, AutoMapper, Logging, Options Pattern
+/forge:fiches-dotnet security      → JWT, versioning d'API, OpenAPI/Swagger
+/forge:fiches-dotnet testing       → Tests unitaires (xUnit, Moq, controllers)
+/forge:fiches-dotnet advanced      → Clean Architecture, CQRS, MediatR
+/forge:fiches-dotnet performance     → HttpClient, Background Services, Caching, Minimal APIs
+/forge:fiches-dotnet multitenancy   → Multi-tenancy : row-level, HasQueryFilter, ITenantResolver
+/forge:fiches-dotnet niveau         → Tableau de progression marché
 ```
 
 ## Instructions
@@ -75,17 +75,19 @@ Quel module veux-tu ouvrir ?
 
 ### Si un argument est fourni
 
-- `api`          → lis et affiche `commands/resources/dotnet/module-api.md`
-- `architecture` → lis et affiche `commands/resources/dotnet/module-architecture.md`
-- `efcore`       → lis et affiche `commands/resources/dotnet/module-efcore.md`
-- `efcore-setup` → lis et affiche `commands/resources/dotnet/module-efcore-setup.md`
-- `patterns`     → lis et affiche `commands/resources/dotnet/module-patterns.md`
-- `security`     → lis et affiche `commands/resources/dotnet/module-security.md`
-- `testing`      → lis et affiche `commands/resources/dotnet/module-testing.md`
-- `advanced`     → lis et affiche `commands/resources/dotnet/module-advanced.md`
-- `performance`    → lis et affiche `commands/resources/dotnet/module-performance.md`
-- `multitenancy`   → lis et affiche `commands/resources/dotnet/module-multitenancy.md`
-- `niveau`         → lis et affiche `commands/resources/dotnet/niveau.md`
+Les chemins ci-dessous sont relatifs au dossier de ce skill.
+
+- `api`          → lis et affiche `modules/module-api.md`
+- `architecture` → lis et affiche `modules/module-architecture.md`
+- `efcore`       → lis et affiche `modules/module-efcore.md`
+- `efcore-setup` → lis et affiche `modules/module-efcore-setup.md`
+- `patterns`     → lis et affiche `modules/module-patterns.md`
+- `security`     → lis et affiche `modules/module-security.md`
+- `testing`      → lis et affiche `modules/module-testing.md`
+- `advanced`     → lis et affiche `modules/module-advanced.md`
+- `performance`    → lis et affiche `modules/module-performance.md`
+- `multitenancy`   → lis et affiche `modules/module-multitenancy.md`
+- `niveau`         → lis et affiche `modules/niveau.md`
 
 Si l'argument ne correspond à aucune valeur connue, affiche la liste des modules valides.
 

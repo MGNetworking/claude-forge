@@ -2,7 +2,6 @@
 
 > Niveau : **Senior junior**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
-> Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
 > **Score minimum** : 11/13 pour valider le niveau
 

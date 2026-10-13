@@ -2,7 +2,6 @@
 
 > Niveau : **Intermédiaire**
 > Consulte ces fiches pour réviser un concept précis ou t'auto-évaluer.
-> Pour un quiz interactif sur ton code actuel, utilise `/learn:quiz`.
 >
 > **Score minimum** : 17/21 pour valider le niveau
 
