@@ -1,5 +1,4 @@
 # Cycle « article » : rédiger puis relire un article Markdown. Exemple d'un cycle qui n'est pas du code.
-# Format PROPOSÉ (v0) : il sera fixé quand agent-engine saura exécuter les cycles.
 # La vérification mécanique (lint Markdown, en-tête, longueur, liens) vient du profil du projet d'articles,
 # écrit par `agent init` ; le jugement (fond, ton) passe par le verdict du relecteur.
 name: article
@@ -17,7 +16,7 @@ nodes:
 
 transitions:
   redaction: { valide: relecture }
-  relecture: { accepte: fin, refuse: redaction }
+  relecture: { accepte: fin, a_corriger: redaction, a_clarifier: redaction }
 
 limits:
   tours_par_noeud: 5

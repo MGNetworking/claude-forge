@@ -78,8 +78,8 @@ claude/                     le plugin « forge »
 │   ├── redacteur.md        rédige un article Markdown        (exemple hors code)
 │   └── relecteur.md        rend un verdict sur un article     (exemple hors code)
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
-│   ├── developpement.yaml  architect → tester → coder → reviewer (refus → coder)
-│   └── article.yaml        redacteur → relecteur (refus → redacteur)
+│   ├── developpement.yaml  architect → coder → reviewer (a_corriger, a_clarifier → coder) ; tester à venir
+│   └── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
 ├── schemas/                LA FORME des livrables structurés (JSON Schema écrit en YAML)
 │   ├── plan.yaml           livrable de l'architect
 │   └── verdict.yaml        livrable du reviewer et du relecteur
@@ -113,7 +113,7 @@ projet : les conventions d'un projet sont dans ses règles (`<projet>/.claude/ru
 
 ### 3.2 Un cycle
 
-**Format proposé (v0)**, à fixer quand agent-engine saura exécuter les cycles :
+Format lu par `agent cycle` (agent-engine, 2026-10-15) :
 
 | Champ | Rôle |
 |---|---|
@@ -121,19 +121,22 @@ projet : les conventions d'un projet sont dans ses règles (`<projet>/.claude/ru
 | `start` | Le premier nœud |
 | `nodes.<nœud>.role` | Le rôle (un fichier de `roles/`) |
 | `nodes.<nœud>.livrable` | Ce que le nœud doit produire, donc comment le programme le vérifie (tableau ci-dessous) |
-| `nodes.<nœud>.schema` | Pour un livrable `document` : le schéma de `schemas/` |
+| `nodes.<nœud>.schema` | Le schéma de `schemas/` : obligatoire pour `document` ; `verdict` par défaut pour un livrable `verdict` |
 | `nodes.<nœud>.outils` | `lecture` : Read, Glob, Grep seulement. Absent : les outils d'écriture aussi |
-| `transitions.<nœud>` | Le nœud suivant selon le résultat vérifié (`valide`, `accepte`, `refuse`) ; `fin` termine le cycle |
-| `limits` | `tours_par_noeud`, `allers_retours` : bornent le coût |
+| `transitions.<nœud>` | Le nœud suivant selon le résultat vérifié : `valide` (`fichiers`, `document`), ou la décision du verdict (`accepte`, `a_corriger`, `a_clarifier`) ; `fin` termine le cycle |
+| `limits` | `tours_par_noeud` (la boucle d'un nœud `fichiers`), `allers_retours` (retours au travail et demandes de précision) : bornent le coût |
 
 Les types de livrables, connus du programme :
 
 | `livrable` | Ce que le programme vérifie | Exemple |
 |---|---|---|
-| `fichiers` | Les commandes du profil du projet passent, le projet est modifié, les tests existants sont intacts | coder, redacteur |
-| `rouge` | Les **nouveaux** tests échouent, les tests existants passent | tester |
-| `document` | La sortie structurée respecte son schéma, puis sa cohérence avec le dépôt | architect (`plan`) |
-| `verdict` | La forme (schéma `verdict`), un refus a au moins une remarque, chaque remarque cite un fichier du diff | reviewer, relecteur |
+| `fichiers` | Les commandes `done` du profil passent, puis ses commandes `final`, le projet est modifié, les tests existants sont intacts | coder, redacteur |
+| `rouge` | Les **nouveaux** tests échouent, les tests existants passent (**pas encore pris en charge**) | tester |
+| `document` | La sortie structurée respecte son schéma, puis sa cohérence avec le dépôt ; ses `questions` sont posées à l'utilisateur, puis le document est refait | architect (`plan`) |
+| `verdict` | La forme (schéma `verdict`) ; `a_corriger` a au moins une remarque, `a_clarifier` au moins une question, `accepte` aucune question ; chaque remarque cite un fichier modifié | reviewer, relecteur |
+
+Les décisions d'un verdict : `accepte` (suite du cycle), `a_corriger` (retour au travail avec les remarques),
+`a_clarifier` (les questions sont posées à l'utilisateur, puis retour au travail avec ses réponses).
 
 ### 3.3 Un schéma de livrable
 
@@ -146,8 +149,10 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 1. **Le programme décide, jamais le modèle.** Un nœud ne réussit que si son livrable est vérifié par le
    programme.
-2. **Un avis peut renvoyer au travail, jamais conclure seul.** Un `verdict` qui refuse renvoie au nœud
-   précédent ; un `verdict` qui accepte ne vaut que si les vérifications du projet passent aussi.
+2. **Un avis peut renvoyer au travail, jamais conclure seul.** Un `verdict` `a_corriger` ou `a_clarifier`
+   renvoie au travail ; un `verdict` qui accepte ne vaut que si les vérifications du projet passent aussi.
+5. **Le besoin appartient à l'utilisateur.** Un agent qui hésite sur le sens de la tâche pose une question ;
+   il ne devine pas.
 3. **Le contrat appartient au programme.** Un rôle précise des consignes ; il ne change pas ce qui est vérifié.
 4. **Tout est borné.** Tours par nœud et allers-retours : un cycle qui n'aboutit pas s'arrête en échec.
 
@@ -155,13 +160,11 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ## 5. État actuel
 
-- La bibliothèque est versionnée et publiée dans le plugin `forge@dotfiles`, version `0.1.0`, installé et
-  vérifié le 2026-10-13 : la copie installée contient `roles/`, `cycles/` et `schemas/`.
-- agent-engine sait déjà lire un **rôle** (`agent run --role <nom>`), mais seulement dans le
-  `<projet>/.claude/roles/` du projet : pour s'en servir aujourd'hui, copier le fichier dans le projet.
-- agent-engine ne sait **pas encore** lire cette bibliothèque, ni exécuter un cycle, ni valider un `document`
-  ou un `verdict`, ni vérifier un livrable `rouge`. La direction est décidée (2026-10-12), l'implémentation
-  est à venir (section 7).
+- La bibliothèque est publiée dans le plugin `forge@dotfiles`, version `0.3.0` (2026-10-15).
+- agent-engine la trouve au lancement (`claude plugin list --json`) et y lit les **rôles** (`agent run`), les
+  **cycles** et les **schémas** (`agent cycle`).
+- `agent cycle` exécute les livrables `fichiers`, `document` et `verdict`. Le livrable `rouge` n'est pas
+  encore pris en charge : le nœud `tester` du cycle `developpement` est commenté en attendant.
 
 ---
 
@@ -170,6 +173,7 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 1. Relire les rôles et les cycles, et les ajuster : ce sont des propositions.
 2. À chaque modification de la bibliothèque, augmenter la `version` de `claude/.claude-plugin/plugin.json`,
    puis relancer `install.ps1` / `install.sh` : agent-engine verra la nouvelle version au lancement suivant.
+3. Rétablir le nœud `tester` du cycle `developpement` quand agent-engine vérifiera le livrable `rouge`.
 
 ---
 
@@ -177,12 +181,5 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 Pour mémoire ; c'est agent-engine qui porte ces travaux :
 
-1. Trouver la bibliothèque par `claude plugin list --json` (section 1, « Comment agent-engine la trouve »),
-   à chaque lancement ; lecture du projet, puis de la bibliothèque, le projet l'emportant. Cas d'erreur, avec
-   un message clair (recommandations) :
-   - `claude` introuvable dans le PATH ;
-   - aucune entrée `forge@dotfiles` → « plugin non installé : lancer `install.ps1` du dépôt dotfiles » ;
-   - entrée présente mais `"enabled": false` → traiter comme absent ;
-   - `installPath` sans `roles/`, `cycles/` ou `schemas/` → bibliothèque incomplète.
-2. Les vérificateurs de livrables : `document` (schéma + dépôt), `verdict`, `rouge`.
-3. L'exécution des cycles décrits dans `cycles/` (LangGraph), avec leurs limites.
+1. Le livrable `rouge` (nœud `tester`).
+2. La reprise d'un cycle interrompu (LangGraph).

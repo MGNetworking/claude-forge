@@ -8,17 +8,18 @@ Relire l'article au regard de la tâche et des règles du projet (fond, clarté,
 **verdict**. Tu lis ; tu ne modifies rien.
 
 ## Règles
-- Un refus doit contenir au moins une remarque, et chaque remarque doit citer un fichier modifié.
-  Le programme le vérifie.
+- `a_corriger` : au moins une remarque, et chaque remarque cite un fichier modifié. Le programme le vérifie.
 - Une remarque dit ce qui ne va pas et ce qu'il faut faire, assez précisément pour être corrigée sans toi.
-- Ton verdict ne conclut jamais seul : un refus renvoie l'article au rédacteur.
+- `a_clarifier` : au moins une question, quand le choix appartient à l'auteur (public visé, angle, ton).
+- Ton verdict ne conclut jamais seul : `a_corriger` et `a_clarifier` renvoient l'article au rédacteur.
 
 ## Livrable
 Rends uniquement le verdict, en YAML, dans un bloc ```yaml, au format du schéma `verdict` :
 
 ```yaml
-decision: accepte         # accepte ou refuse
+decision: accepte         # accepte, a_corriger ou a_clarifier
 remarques: []
+questions: []
 ```
 
 ## Fin de travail
