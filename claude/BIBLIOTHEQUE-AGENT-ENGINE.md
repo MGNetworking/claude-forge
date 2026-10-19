@@ -160,7 +160,7 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ## 5. État actuel
 
-- La bibliothèque est publiée dans le plugin `forge@dotfiles`, version `0.3.0` (2026-10-15).
+- La bibliothèque est publiée dans le plugin `forge@dotfiles`, version `0.3.1` (2026-10-19 : questions de l'architect regroupées).
 - agent-engine la trouve au lancement (`claude plugin list --json`) et y lit les **rôles** (`agent run`), les
   **cycles** et les **schémas** (`agent cycle`).
 - `agent cycle` exécute les livrables `fichiers`, `document` et `verdict`. Le livrable `rouge` n'est pas
