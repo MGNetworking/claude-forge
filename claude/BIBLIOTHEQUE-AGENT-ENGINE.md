@@ -78,7 +78,7 @@ claude/                     le plugin « forge »
 │   ├── redacteur.md        rédige un article Markdown        (exemple hors code)
 │   └── relecteur.md        rend un verdict sur un article     (exemple hors code)
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
-│   ├── developpement.yaml  architect → coder → reviewer (a_corriger, a_clarifier → coder) ; tester à venir
+│   ├── developpement.yaml  architect → tester → coder → reviewer (a_corriger, a_clarifier → coder)
 │   └── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
 ├── schemas/                LA FORME des livrables structurés (JSON Schema écrit en YAML)
 │   ├── plan.yaml           livrable de l'architect
@@ -131,7 +131,7 @@ Les types de livrables, connus du programme :
 | `livrable` | Ce que le programme vérifie | Exemple |
 |---|---|---|
 | `fichiers` | Les commandes `done` du profil passent, puis ses commandes `final`, le projet est modifié, les tests existants sont intacts | coder, redacteur |
-| `rouge` | Les **nouveaux** tests échouent, les tests existants passent (**pas encore pris en charge**) | tester |
+| `rouge` | Seuls des fichiers de test écrits, tests existants intacts, et le profil échoue ; ces tests sont ensuite protégés pour le `coder` | tester |
 | `document` | La sortie structurée respecte son schéma, puis sa cohérence avec le dépôt ; ses `questions` sont posées à l'utilisateur, puis le document est refait | architect (`plan`) |
 | `verdict` | La forme (schéma `verdict`) ; `a_corriger` a au moins une remarque, `a_clarifier` au moins une question, `accepte` aucune question ; chaque remarque cite un fichier modifié | reviewer, relecteur |
 
@@ -160,11 +160,11 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ## 5. État actuel
 
-- La bibliothèque est publiée dans le plugin `forge@dotfiles`, version `0.3.1` (2026-10-19 : questions de l'architect regroupées).
+- La bibliothèque est publiée dans le plugin `forge@dotfiles`, version `0.4.0` (2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
 - agent-engine la trouve au lancement (`claude plugin list --json`) et y lit les **rôles** (`agent run`), les
   **cycles** et les **schémas** (`agent cycle`).
-- `agent cycle` exécute les livrables `fichiers`, `document` et `verdict`. Le livrable `rouge` n'est pas
-  encore pris en charge : le nœud `tester` du cycle `developpement` est commenté en attendant.
+- `agent cycle` exécute les quatre livrables : `fichiers`, `rouge`, `document` et `verdict`. Le livrable
+  `rouge` demande `test_files` dans le profil du projet.
 
 ---
 
@@ -173,7 +173,6 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 1. Relire les rôles et les cycles, et les ajuster : ce sont des propositions.
 2. À chaque modification de la bibliothèque, augmenter la `version` de `claude/.claude-plugin/plugin.json`,
    puis relancer `install.ps1` / `install.sh` : agent-engine verra la nouvelle version au lancement suivant.
-3. Rétablir le nœud `tester` du cycle `developpement` quand agent-engine vérifiera le livrable `rouge`.
 
 ---
 
@@ -181,5 +180,4 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 Pour mémoire ; c'est agent-engine qui porte ces travaux :
 
-1. Le livrable `rouge` (nœud `tester`).
-2. La reprise d'un cycle interrompu (LangGraph).
+Les livrables et la reprise d'un cycle interrompu sont faits (2026-10-19). Reste l'orchestrateur (palier 3).

@@ -10,6 +10,11 @@ Tu n'écris que des tests : jamais de code de production.
 ## Règles
 - Chaque nouveau test doit **échouer** sur le code actuel, parce que le comportement demandé n'existe pas encore.
   Le programme le vérifie : un test qui passe déjà ne prouve rien.
+- Tu ne touches qu'aux fichiers de test (motifs `test_files` du profil) : le programme refuse tout autre
+  fichier modifié. Si un test a besoin d'un type qui n'existe pas encore, laisse-le échouer : c'est au code
+  de le créer.
+- Le `coder` devra rendre tes tests verts **sans les modifier** : écris exactement ce que la tâche et le plan
+  demandent, ni plus ni moins.
 - Les tests existants doivent continuer de passer. Ne jamais modifier ni supprimer un test existant : les
   fichiers de test existants ne peuvent qu'être complétés. Pour importer quelque chose de plus, ajoute une
   **nouvelle** ligne d'import.
