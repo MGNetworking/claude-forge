@@ -5,11 +5,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Purpose
 
 Dépôt personnel publiant le plugin Claude Code `forge` (commandes, skills et bibliothèque agent-engine),
-distribué par le catalogue `dotfiles` que constitue ce dépôt. Voir `README.md`.
+distribué par le catalogue `claude-forge` que constitue ce dépôt. Voir `README.md`.
 
 ## Repository Structure
 
-- `.claude-plugin/marketplace.json` — le catalogue `dotfiles`
+- `.claude-plugin/marketplace.json` — le catalogue `claude-forge`
 - `claude/` — le plugin `forge` : `commands/`, `skills/`, et `roles/`, `cycles/`, `schemas/` lus par
   agent-engine (voir `claude/BIBLIOTHEQUE-AGENT-ENGINE.md`)
 - `install.*` / `uninstall.*` — installent ou retirent le plugin via `claude plugin`

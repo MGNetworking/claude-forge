@@ -1,4 +1,4 @@
-# install.ps1 - Installe le plugin Claude Code "forge" depuis le catalogue "dotfiles"
+# install.ps1 - Installe le plugin Claude Code "forge" depuis le catalogue "claude-forge"
 #
 # Ne cree aucun lien et ne modifie ni ~/.claude/commands ni ~/.claude/skills :
 # l'installation passe par le gestionnaire de plugins de Claude Code.
@@ -9,8 +9,8 @@ $ErrorActionPreference = "Stop"
 
 $DOTFILES_DIR = $PSScriptRoot
 $CLAUDE_DIR   = "$env:USERPROFILE\.claude"
-$MARKETPLACE  = "dotfiles"
-$PLUGIN       = "forge@dotfiles"
+$MARKETPLACE  = "claude-forge"
+$PLUGIN       = "forge@claude-forge"
 
 function Write-Info     { param($msg) Write-Host "[OK] $msg" -ForegroundColor Green }
 function Write-Warning2 { param($msg) Write-Host "[!]  $msg" -ForegroundColor Yellow }
@@ -46,8 +46,17 @@ foreach ($name in "commands", "skills") {
     }
 }
 
-# 3. Le catalogue
+# 3. L'ancien nom du catalogue ("dotfiles", avant le 2026-10-20) installerait forge en double
 $marketplaces = (& claude plugin marketplace list --json) | ConvertFrom-Json
+if ($marketplaces | Where-Object { $_.name -eq "dotfiles" }) {
+    Write-Warning2 "Le catalogue porte encore son ancien nom, dotfiles (ancienne installation)."
+    Write-Host     "     Retire-le, puis relance ce script :"
+    Write-Host     "     claude plugin uninstall forge@dotfiles --scope user"
+    Write-Host     "     claude plugin marketplace remove dotfiles"
+    exit 1
+}
+
+# 4. Le catalogue
 if ($marketplaces | Where-Object { $_.name -eq $MARKETPLACE }) {
     Invoke-Claude plugin marketplace update $MARKETPLACE
     Write-Info "Catalogue $MARKETPLACE mis a jour"
@@ -56,7 +65,7 @@ if ($marketplaces | Where-Object { $_.name -eq $MARKETPLACE }) {
     Write-Info "Catalogue $MARKETPLACE ajoute"
 }
 
-# 4. Le plugin
+# 5. Le plugin
 $plugins = (& claude plugin list --json) | ConvertFrom-Json
 if ($plugins | Where-Object { $_.id -eq $PLUGIN }) {
     Invoke-Claude plugin update $PLUGIN

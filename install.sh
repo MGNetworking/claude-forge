@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh — Installe le plugin Claude Code « forge » depuis le catalogue « dotfiles »
+# install.sh — Installe le plugin Claude Code « forge » depuis le catalogue « claude-forge »
 #
 # Ne crée aucun lien et ne modifie ni ~/.claude/commands ni ~/.claude/skills :
 # l'installation passe par le gestionnaire de plugins de Claude Code.
@@ -10,8 +10,8 @@ set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
-MARKETPLACE="dotfiles"
-PLUGIN="forge@dotfiles"
+MARKETPLACE="claude-forge"
+PLUGIN="forge@claude-forge"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -42,7 +42,16 @@ for name in commands skills; do
   fi
 done
 
-# 3. Le catalogue
+# 3. L'ancien nom du catalogue (« dotfiles », avant le 2026-10-20) installerait forge en double
+if claude plugin marketplace list --json | grep -q '"name": "dotfiles"'; then
+  warning "Le catalogue porte encore son ancien nom, dotfiles (ancienne installation)."
+  echo "     Retire-le, puis relance ce script :"
+  echo "     claude plugin uninstall forge@dotfiles --scope user"
+  echo "     claude plugin marketplace remove dotfiles"
+  exit 1
+fi
+
+# 4. Le catalogue
 if claude plugin marketplace list --json | grep -q "\"name\": \"$MARKETPLACE\""; then
   claude plugin marketplace update "$MARKETPLACE"
   info "Catalogue $MARKETPLACE mis à jour"
@@ -51,7 +60,7 @@ else
   info "Catalogue $MARKETPLACE ajouté"
 fi
 
-# 4. Le plugin
+# 5. Le plugin
 if claude plugin list --json | grep -q "\"id\": \"$PLUGIN\""; then
   claude plugin update "$PLUGIN"
   info "Plugin $PLUGIN mis à jour"

@@ -18,7 +18,7 @@ section 7 « La direction du projet ».
    - 3.3 [Un schéma de livrable](#33-un-schéma-de-livrable)
 4. [Les règles](#4-les-règles)
 5. [État actuel](#5-état-actuel)
-6. [À faire dans dotfiles](#6-à-faire-dans-dotfiles)
+6. [À faire dans claude-forge](#6-à-faire-dans-claude-forge)
 7. [À faire dans agent-engine](#7-à-faire-dans-agent-engine)
 
 ---
@@ -31,26 +31,27 @@ décide qu'un nœud a réussi. Le moteur ne connaît **aucun rôle ni aucun cycl
 
 ### Comment agent-engine la trouve
 
-La bibliothèque est **distribuée dans le plugin `forge@dotfiles`**, installé par le gestionnaire de plugins de
+La bibliothèque est **distribuée dans le plugin `forge@claude-forge`**, installé par le gestionnaire de plugins de
 Claude Code (`install.ps1` / `install.sh` à la racine du dépôt). agent-engine la lit dans le dossier où ce
 plugin est installé, comme Claude Code y lit les commandes et les skills :
 
 1. exécuter `claude plugin list --json` ;
-2. prendre l'entrée dont `id` vaut `forge@dotfiles` ;
+2. prendre l'entrée dont `id` vaut `forge@claude-forge` ;
 3. lire `roles/`, `cycles/` et `schemas/` sous son `installPath`.
 
 Le moteur lit d'abord le `.claude/` du projet, puis la bibliothèque du plugin ; un fichier de même nom dans
 le projet l'emporte.
 
-Constaté le 2026-10-13 (Claude Code 2.1.284) :
+Forme de l'entrée, constatée le 2026-10-13 (Claude Code 2.1.284) sous l'ancien nom du catalogue, `dotfiles`.
+Le catalogue s'appelle `claude-forge` depuis le 2026-10-20 : l'`id` et le dossier suivent ce nom.
 
 ```json
 {
-  "id": "forge@dotfiles",
-  "version": "0.1.0",
+  "id": "forge@claude-forge",
+  "version": "<version>",
   "scope": "user",
   "enabled": true,
-  "installPath": "C:\\Users\\ghale\\.claude\\plugins\\cache\\dotfiles\\forge\\0.1.0"
+  "installPath": "C:\\Users\\ghale\\.claude\\plugins\\cache\\claude-forge\\forge\\<version>"
 }
 ```
 
@@ -160,7 +161,7 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ## 5. État actuel
 
-- La bibliothèque est publiée dans le plugin `forge@dotfiles`, version `0.4.0` (2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
+- La bibliothèque est publiée dans le plugin `forge@claude-forge`, version `0.4.1` (2026-10-20 : catalogue renommé `claude-forge`, anciennement `dotfiles` ; 0.4.0, 2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
 - agent-engine la trouve au lancement (`claude plugin list --json`) et y lit les **rôles** (`agent run`), les
   **cycles** et les **schémas** (`agent cycle`).
 - `agent cycle` exécute les quatre livrables : `fichiers`, `rouge`, `document` et `verdict`. Le livrable
@@ -168,7 +169,7 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ---
 
-## 6. À faire dans dotfiles
+## 6. À faire dans claude-forge
 
 1. Relire les rôles et les cycles, et les ajuster : ce sont des propositions.
 2. À chaque modification de la bibliothèque, augmenter la `version` de `claude/.claude-plugin/plugin.json`,

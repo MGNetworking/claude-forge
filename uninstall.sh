@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# uninstall.sh — Désinstalle le plugin Claude Code « forge » et retire le catalogue « dotfiles »
+# uninstall.sh — Désinstalle le plugin Claude Code « forge » et retire le catalogue « claude-forge »
 #
-# Seuls forge et le catalogue dotfiles sont retirés ; les autres plugins et catalogues
+# Seuls forge et le catalogue claude-forge sont retirés ; les autres plugins et catalogues
 # ne sont pas touchés. Le dépôt lui-même n'est pas modifié.
 
 set -e
 
-MARKETPLACE="dotfiles"
-PLUGIN="forge@dotfiles"
+MARKETPLACE="claude-forge"
+PLUGIN="forge@claude-forge"
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'

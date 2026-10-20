@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "dotfiles",
+  "name": "claude-forge",
   "description": "Catalogue personnel de plugins Claude Code",
   "owner": {
     "name": "Ghalem Maxime"

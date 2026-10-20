@@ -1,7 +1,7 @@
-# dotfiles — Plugin Claude Code « forge »
+# claude-forge — Plugin Claude Code « forge »
 
 Outils personnels pour Claude Code, publiés sous la forme d'un **plugin** : `forge`, distribué par le
-catalogue `dotfiles` que constitue ce dépôt.
+catalogue `claude-forge` que constitue ce dépôt.
 
 L'installation passe par le gestionnaire de plugins de Claude Code : elle ne crée aucun lien et ne touche ni
 à `~/.claude/commands`, ni à `~/.claude/skills`, ni aux autres plugins. Elle s'annule entièrement.
@@ -11,9 +11,9 @@ L'installation passe par le gestionnaire de plugins de Claude Code : elle ne cr�
 ## Structure
 
 ```
-dotfiles/
+claude-forge/
 ├── .claude-plugin/
-│   └── marketplace.json      ← le catalogue « dotfiles » : déclare le plugin forge
+│   └── marketplace.json      ← le catalogue « claude-forge » : déclare le plugin forge
 ├── claude/                   ← le plugin « forge »
 │   ├── .claude-plugin/
 │   │   └── plugin.json       ← identité et version du plugin
@@ -80,11 +80,11 @@ Linux / macOS / Git Bash :
 ./install.sh
 ```
 
-Le script ajoute le catalogue `dotfiles` puis installe `forge@dotfiles`. Il revient à :
+Le script ajoute le catalogue `claude-forge` puis installe `forge@claude-forge`. Il revient à :
 
 ```bash
 claude plugin marketplace add <chemin du dépôt>
-claude plugin install forge@dotfiles --scope user
+claude plugin install forge@claude-forge --scope user
 ```
 
 Ouvrir ensuite une **nouvelle session** Claude Code.
@@ -99,13 +99,13 @@ met à jour le catalogue et le plugin.
 Claude Code n'exécute jamais les fichiers du dépôt : il installe une **copie** du plugin, une par version.
 
 ```
-C:\Users\<utilisateur>\.claude\plugins\cache\dotfiles\forge\
+C:\Users\<utilisateur>\.claude\plugins\cache\claude-forge\forge\
 ├── 0.1.0\   ← ancienne version : plus référencée, plus utilisée
 └── 0.2.0\   ← version active
 ```
 
 1. **À l'installation ou à la mise à jour**, Claude Code écrit dans son registre
-   (`~/.claude/plugins/installed_plugins.json`) **une seule entrée** pour `forge@dotfiles` : la version, le
+   (`~/.claude/plugins/installed_plugins.json`) **une seule entrée** pour `forge@claude-forge` : la version, le
    dossier (`installPath`) et le commit installés. Une mise à jour **remplace** cette entrée.
 2. **Au démarrage d'une session**, Claude Code lit ce registre et charge les commandes et les skills depuis
    `installPath`.
@@ -134,4 +134,4 @@ Conséquences :
 ./uninstall.sh
 ```
 
-Seuls le plugin `forge` et le catalogue `dotfiles` sont retirés.
+Seuls le plugin `forge` et le catalogue `claude-forge` sont retirés.

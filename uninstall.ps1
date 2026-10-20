@@ -1,12 +1,12 @@
-# uninstall.ps1 - Desinstalle le plugin Claude Code "forge" et retire le catalogue "dotfiles"
+# uninstall.ps1 - Desinstalle le plugin Claude Code "forge" et retire le catalogue "claude-forge"
 #
-# Seuls forge et le catalogue dotfiles sont retires ; les autres plugins et catalogues
+# Seuls forge et le catalogue claude-forge sont retires ; les autres plugins et catalogues
 # ne sont pas touches. Le depot lui-meme n'est pas modifie.
 
 $ErrorActionPreference = "Stop"
 
-$MARKETPLACE = "dotfiles"
-$PLUGIN      = "forge@dotfiles"
+$MARKETPLACE = "claude-forge"
+$PLUGIN      = "forge@claude-forge"
 
 function Write-Info { param($msg) Write-Host "[OK] $msg" -ForegroundColor Green }
 function Write-Fail { param($msg) Write-Host "[X]  $msg" -ForegroundColor Red; exit 1 }
