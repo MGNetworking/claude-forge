@@ -26,7 +26,7 @@ Si appelé seul (sans argument), poser les questions suivantes :
 
 3. **Préfixe de tag** ? (défaut : `v` → ex: `v1.2.3`)
 
-Si appelé depuis `/git-setup`, utiliser les arguments fournis directement.
+Si appelé depuis `/forge:git-setup`, utiliser les arguments fournis directement.
 
 ---
 
@@ -71,7 +71,7 @@ Si appelé depuis `/git-setup`, utiliser les arguments fournis directement.
   - `feat:` → bump mineur (`1.0.0` → `1.1.0`)
   - `fix:` → bump patch (`1.0.0` → `1.0.1`)
   - `feat!:` ou `BREAKING CHANGE:` → bump majeur (`1.0.0` → `2.0.0`)
-- Le workflow GitHub Actions (`/git-setup-actions`) est nécessaire pour automatiser le déclenchement
+- Le workflow GitHub Actions (`/forge:git-setup-actions`) est nécessaire pour automatiser le déclenchement
 - La PR de release est créée automatiquement après chaque push sur la branche principale
 
 ---

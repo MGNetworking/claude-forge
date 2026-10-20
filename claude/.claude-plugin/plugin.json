@@ -1,0 +1,8 @@
+{
+  "name": "forge",
+  "version": "0.4.1",
+  "description": "Commandes, skills et bibliothèque agent-engine (rôles, cycles, schémas)",
+  "author": {
+    "name": "Ghalem Maxime"
+  }
+}

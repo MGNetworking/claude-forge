@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-forge",
+  "description": "Catalogue personnel de plugins Claude Code",
+  "owner": {
+    "name": "Ghalem Maxime"
+  },
+  "plugins": [
+    {
+      "name": "forge",
+      "description": "Commandes, skills et bibliothèque agent-engine (rôles, cycles, schémas)",
+      "category": "development",
+      "source": "./claude"
+    }
+  ]
+}

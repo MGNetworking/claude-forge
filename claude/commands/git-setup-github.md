@@ -34,7 +34,7 @@ Si appelé seul (sans argument), poser les questions suivantes une par une :
 
 6. **URL du site web du projet** ? (optionnel — laisser vide si aucun)
 
-Si appelé depuis `/git-setup`, utiliser les arguments fournis directement.
+Si appelé depuis `/forge:git-setup`, utiliser les arguments fournis directement.
 
 ---
 

@@ -1,105 +1,137 @@
-# dotfiles — Claude Code Toolkit
+# claude-forge — Plugin Claude Code « forge »
 
-Boîte à outils personnelle pour **Claude Code** : commandes et skills qui automatisent les tâches répétitives du cycle de développement — de l'init git au déploiement en production.
+Outils personnels pour Claude Code, publiés sous la forme d'un **plugin** : `forge`, distribué par le
+catalogue `claude-forge` que constitue ce dépôt.
 
-> **Pourquoi ce projet ?**
-> Claude Code permet d'écrire des commandes personnalisées en Markdown. J'ai construit ce toolkit pour ne plus jamais retaper les mêmes instructions, garder une cohérence entre mes projets, et me concentrer sur ce qui compte vraiment : le code.
-
----
-
-## Ce que ça démontre
-
-| Compétence | Comment |
-|---|---|
-| **Prompt engineering** | 48 commandes Markdown avec instructions précises, gestion du contexte et chaînage de tâches |
-| **Culture qualité** | Workflow complet : audit de code, tests, revue de PR, vérification pré-prod |
-| **Sécurité applicative** | Base de données de menaces (CVEs, OWASP Top 10, MCP threats), commandes d'audit et de surveillance |
-| **Automatisation** | Script d'installation idempotent avec détection de conflits et sauvegarde automatique |
-| **Documentation** | README structuré, guide de vérification du travail, catégorisation des outils |
+L'installation passe par le gestionnaire de plugins de Claude Code : elle ne crée aucun lien et ne touche ni
+à `~/.claude/commands`, ni à `~/.claude/skills`, ni aux autres plugins. Elle s'annule entièrement.
 
 ---
 
 ## Structure
 
 ```
-dotfiles/
-├── CLAUDE.md                  # Instructions du projet pour Claude Code
-├── install.sh                 # Script d'installation des liens symboliques
-└── claude/
-    ├── commands/              # 48 commandes (slash commands)
-    │   ├── README.md          # Liste et guide d'utilisation
-    │   ├── git-setup*.md      # Initialisation complète d'un projet git
-    │   ├── git-worktree*.md   # Gestion des worktrees git isolés
-    │   ├── plan-*.md          # Planification et architecture
-    │   ├── security*.md       # Audits et vérifications de sécurité
-    │   ├── learn/             # Commandes d'apprentissage interactif
-    │   └── resources/         # Base de données de menaces (threat-db.yaml)
-    └── skills/                # 4 skills réutilisables
+claude-forge/
+├── .claude-plugin/
+│   └── marketplace.json      ← le catalogue « claude-forge » : déclare le plugin forge
+├── claude/                   ← le plugin « forge »
+│   ├── .claude-plugin/
+│   │   └── plugin.json       ← identité et version du plugin
+│   ├── commands/             ← commandes Claude Code
+│   ├── skills/               ← skills Claude Code (un dossier par skill, avec son SKILL.md)
+│   ├── roles/                ← bibliothèque agent-engine : les rôles
+│   ├── cycles/               ← bibliothèque agent-engine : les cycles
+│   ├── schemas/              ← bibliothèque agent-engine : les schémas de livrables
+│   └── BIBLIOTHEQUE-AGENT-ENGINE.md
+├── install.ps1 / install.sh      ← installe ou met à jour le plugin
+└── uninstall.ps1 / uninstall.sh  ← le retire
 ```
+
+`roles/`, `cycles/` et `schemas/` ne servent pas à Claude Code : ils sont lus par **agent-engine**, dans le
+dossier du plugin installé. Voir [claude/BIBLIOTHEQUE-AGENT-ENGINE.md](claude/BIBLIOTHEQUE-AGENT-ENGINE.md).
 
 ---
 
-## Commandes disponibles
+## Commandes et skills
 
-Les commandes couvrent l'ensemble du cycle de développement. Voir [claude/commands/README.md](claude/commands/README.md) pour la liste complète et le guide de vérification.
+Toutes s'appellent avec le préfixe du plugin : `/forge:<nom>`.
 
-```
-init → plan → code → commit → PR → ship → monitor
-```
+### Initialisation Git
 
-| Catégorie | Commandes clés |
+| Commande | Description |
 |---|---|
-| **Initialisation Git** | `/git-setup`, `/git-setup-github`, `/git-setup-actions` |
-| **Planification** | `/plan-start`, `/plan-eng-review`, `/plan-execute` |
-| **Qualité** | `/audit-codebase`, `/qa`, `/refactor`, `/arch-check` |
-| **Sécurité** | `/security-audit`, `/security-check`, `/update-threat-db` |
-| **Workflow** | `/commit`, `/pr`, `/validate-changes`, `/ship`, `/canary` |
-| **Développement** | `/investigate`, `/explain`, `/generate-tests` |
-| **Apprentissage** | `/learn:teach`, `/learn:alternatives`, `/learn:quiz` |
+| `/forge:git-setup` | Orchestrateur — questionnaire guidé pour initialiser un projet complet |
+| `/forge:git-setup-branches` | Créer les branches recommandées (GitHub Flow, GitFlow, Trunk-based) |
+| `/forge:git-setup-gitignore` | Générer un `.gitignore` adapté au langage, framework et OS |
+| `/forge:git-setup-gitattributes` | Générer un `.gitattributes` (fins de ligne, fichiers binaires) |
+| `/forge:git-setup-release-please` | Configurer Release Please pour automatiser versions et CHANGELOG |
+| `/forge:git-setup-actions` | Générer les workflows GitHub Actions (CI et/ou Release) |
+| `/forge:git-setup-github` | Créer le dépôt GitHub avec description, topics, remote et protection des branches |
 
----
+### Qualité
 
-## Base de données de menaces (`threat-db.yaml`)
+| Commande | Description |
+|---|---|
+| `/forge:arch-check` | Vérification de l'architecture — SOLID, règles de couche et conventions |
+| `/forge:audit-prompts` | Auditer les fichiers `prompt-generateur-*.md` — complétude et cohérence |
 
-`claude/commands/resources/threat-db.yaml` est une base de renseignements sur les menaces de sécurité spécifique à l'écosystème **agents IA / Claude Code** — un domaine très récent (2025-2026).
-
-Elle est utilisée par deux commandes :
-
-- **`/security-check`** — compare ta configuration Claude Code contre la base pour détecter :
-  - skills et auteurs malveillants connus (campagnes ClawHavoc, MCPoison...)
-  - serveurs MCP avec CVEs actifs
-  - patterns suspects dans les hooks (reverse shells, exfiltration de données)
-  - secrets exposés dans les fichiers de configuration
-
-- **`/update-threat-db`** — met à jour la base via recherche web (Perplexity / WebSearch) avec les dernières menaces, nouveaux CVEs MCP et campagnes malveillantes
-
-> Concrètement : c'est l'équivalent d'une base antivirus locale, ciblée sur les vecteurs d'attaque propres aux agents de codage IA.
-
-La base référence uniquement des données publiques (CVEs, publications de recherche en sécurité de Snyk, Checkpoint, JFrog, Recorded Future...).
-
----
-
-## Skills
-
-Skills utilisés en interne par les commandes ou invocables directement.
+### Apprentissage .NET
 
 | Skill | Description |
 |---|---|
-| `tdd-workflow` | Workflow TDD étape par étape |
-| `security-checklist` | Checklist de sécurité OWASP |
-| `pdf-generator` | Génération de fichiers PDF |
-| `ast-grep-patterns` | Patterns de recherche AST avec ast-grep |
+| `/forge:fiches-dotnet` | Menu des fiches de révision .NET |
+| `/forge:fiches-dotnet <module>` | Ouvre un module : `api`, `architecture`, `efcore`, `efcore-setup`, `patterns`, `security`, `testing`, `advanced`, `performance`, `multitenancy`, `niveau` |
 
 ---
 
 ## Installation
 
+**Prérequis :** [Claude Code](https://claude.com/claude-code) installé, commande `claude` disponible.
+
+Windows (PowerShell) :
+
+```powershell
+.\install.ps1
+```
+
+Linux / macOS / Git Bash :
+
 ```bash
-git clone https://github.com/MGNetworking/dotfiles.git ~/dotfiles
-cd ~/dotfiles
 ./install.sh
 ```
 
-Le script crée des liens symboliques de `claude/commands/` et `claude/skills/` vers `~/.claude/`, avec détection de conflits et sauvegarde automatique des fichiers existants.
+Le script ajoute le catalogue `claude-forge` puis installe `forge@claude-forge`. Il revient à :
 
-**Prérequis :** [Claude Code](https://claude.ai/code) installé.
+```bash
+claude plugin marketplace add <chemin du dépôt>
+claude plugin install forge@claude-forge --scope user
+```
+
+Ouvrir ensuite une **nouvelle session** Claude Code.
+
+### Mettre à jour
+
+Augmenter la `version` de `claude/.claude-plugin/plugin.json`, puis relancer le script d'installation : il
+met à jour le catalogue et le plugin.
+
+### Quelle version est utilisée
+
+Claude Code n'exécute jamais les fichiers du dépôt : il installe une **copie** du plugin, une par version.
+
+```
+C:\Users\<utilisateur>\.claude\plugins\cache\claude-forge\forge\
+├── 0.1.0\   ← ancienne version : plus référencée, plus utilisée
+└── 0.2.0\   ← version active
+```
+
+1. **À l'installation ou à la mise à jour**, Claude Code écrit dans son registre
+   (`~/.claude/plugins/installed_plugins.json`) **une seule entrée** pour `forge@claude-forge` : la version, le
+   dossier (`installPath`) et le commit installés. Une mise à jour **remplace** cette entrée.
+2. **Au démarrage d'une session**, Claude Code lit ce registre et charge les commandes et les skills depuis
+   `installPath`.
+3. **À l'appel d'une commande** (`/forge:…`), il exécute ce qu'il a chargé au démarrage : aucun choix de
+   version n'a lieu à ce moment-là.
+
+Conséquences :
+
+- Une session déjà ouverte garde la version chargée à son démarrage : ouvrir une **nouvelle session** après
+  une mise à jour (« Restart to apply changes »).
+- Un ancien dossier de version n'est plus utilisé ; il peut être supprimé.
+- agent-engine suit la même règle : `claude plugin list --json` renvoie l'`installPath` de la version active.
+- Pour voir la version active :
+
+  ```bash
+  claude plugin list --json
+  ```
+
+### Désinstaller
+
+```powershell
+.\uninstall.ps1
+```
+
+```bash
+./uninstall.sh
+```
+
+Seuls le plugin `forge` et le catalogue `claude-forge` sont retirés.

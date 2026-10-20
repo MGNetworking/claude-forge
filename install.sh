@@ -1,10 +1,17 @@
 #!/usr/bin/env bash
-# install.sh — Installe les liens symboliques du dépôt dotfiles dans ~/.claude/
+# install.sh — Installe le plugin Claude Code « forge » depuis le catalogue « claude-forge »
+#
+# Ne crée aucun lien et ne modifie ni ~/.claude/commands ni ~/.claude/skills :
+# l'installation passe par le gestionnaire de plugins de Claude Code.
+# Les autres plugins et catalogues ne sont pas touchés.
+# Relancer le script met à jour le catalogue et le plugin.
 
 set -e
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLAUDE_DIR="$HOME/.claude"
+MARKETPLACE="claude-forge"
+PLUGIN="forge@claude-forge"
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -16,105 +23,54 @@ warning() { echo -e "${YELLOW}[!]${NC} $1"; }
 error()   { echo -e "${RED}[✘]${NC} $1"; exit 1; }
 
 echo ""
-echo "=== Installation des dotfiles Claude Code ==="
-echo "Source : $DOTFILES_DIR"
-echo "Cible  : $CLAUDE_DIR"
+echo "=== Installation du plugin forge ==="
+echo "Catalogue : $DOTFILES_DIR"
 echo ""
 
-# Créer ~/.claude s'il n'existe pas
-mkdir -p "$CLAUDE_DIR"
+# 1. Claude Code doit être installé
+command -v claude >/dev/null 2>&1 || error "Claude Code est introuvable. Installe-le : https://claude.com/claude-code"
+info "Claude Code $(claude --version)"
 
-# Fonction pour créer un lien symbolique avec sauvegarde
-# Retourne le chemin du backup dans la variable LAST_BACKUP
-LAST_BACKUP=""
-link() {
-  local src="$1"
-  local dst="$2"
-  local name
-  name=$(basename "$dst")
-  LAST_BACKUP=""
-
-  if [ -L "$dst" ]; then
-    local current_target
-    current_target=$(readlink "$dst")
-    if [ "$current_target" = "$src" ]; then
-      info "$name → déjà lié (aucune action)"
-      return
-    else
-      warning "$name → lien existant vers $current_target, remplacement..."
-      rm "$dst"
-    fi
-  elif [ -e "$dst" ]; then
-    LAST_BACKUP="${dst}.backup.$(date +%Y%m%d_%H%M%S)"
-    warning "$name → dossier existant, sauvegarde dans $LAST_BACKUP"
-    mv "$dst" "$LAST_BACKUP"
+# 2. Une ancienne installation par liens symboliques bloquerait le retour à l'état de base
+for name in commands skills; do
+  path="$CLAUDE_DIR/$name"
+  if [ -L "$path" ] && [[ "$(readlink "$path")" == "$DOTFILES_DIR"* ]]; then
+    warning "$path est un lien vers ce dépôt (ancienne installation)."
+    echo "     Supprime le lien seul, sans toucher au dépôt, puis relance ce script :"
+    echo "     rm \"$path\""
+    exit 1
   fi
+done
 
-  ln -s "$src" "$dst"
-  info "$name → lié vers $src"
-}
+# 3. L'ancien nom du catalogue (« dotfiles », avant le 2026-10-20) installerait forge en double
+if claude plugin marketplace list --json | grep -q '"name": "dotfiles"'; then
+  warning "Le catalogue porte encore son ancien nom, dotfiles (ancienne installation)."
+  echo "     Retire-le, puis relance ce script :"
+  echo "     claude plugin uninstall forge@dotfiles --scope user"
+  echo "     claude plugin marketplace remove dotfiles"
+  exit 1
+fi
 
-# Fonction pour analyser un backup et détecter les fichiers non présents dans le dépôt
-check_backup() {
-  local backup="$1"
-  local src="$2"
+# 4. Le catalogue
+if claude plugin marketplace list --json | grep -q "\"name\": \"$MARKETPLACE\""; then
+  claude plugin marketplace update "$MARKETPLACE"
+  info "Catalogue $MARKETPLACE mis à jour"
+else
+  claude plugin marketplace add "$DOTFILES_DIR"
+  info "Catalogue $MARKETPLACE ajouté"
+fi
 
-  [ -z "$backup" ] && return
-  [ ! -d "$backup" ] && return
+# 5. Le plugin
+if claude plugin list --json | grep -q "\"id\": \"$PLUGIN\""; then
+  claude plugin update "$PLUGIN"
+  info "Plugin $PLUGIN mis à jour"
+else
+  claude plugin install "$PLUGIN" --scope user
+  info "Plugin $PLUGIN installé"
+fi
 
-  local only_in_backup=()
-  while IFS= read -r file; do
-    local name
-    name=$(basename "$file")
-    if [ ! -e "$src/$name" ]; then
-      only_in_backup+=("$name")
-    fi
-  done < <(find "$backup" -maxdepth 1 -type f)
-
-  if [ ${#only_in_backup[@]} -eq 0 ]; then
-    info "Backup identique au dépôt — tu peux le supprimer en toute sécurité :"
-    echo "    rm -rf \"$backup\""
-  else
-    warning "Le backup contient des fichiers ABSENTS du dépôt :"
-    for f in "${only_in_backup[@]}"; do
-      echo "    - $f"
-    done
-    echo ""
-    warning "Ajoute ces fichiers au dépôt avant de supprimer le backup :"
-    echo "    cp \"$backup/<fichier>\" \"$src/\""
-    echo "    Puis : rm -rf \"$backup\""
-  fi
-}
-
-# Installation des liens symboliques
-link "$DOTFILES_DIR/claude/commands" "$CLAUDE_DIR/commands"
-COMMANDS_BACKUP="$LAST_BACKUP"
-
-link "$DOTFILES_DIR/claude/skills" "$CLAUDE_DIR/skills"
-SKILLS_BACKUP="$LAST_BACKUP"
-
-# Analyse des backups
 echo ""
-echo "=== Analyse des sauvegardes ==="
-echo ""
-
-if [ -n "$COMMANDS_BACKUP" ]; then
-  echo "Backup commands : $COMMANDS_BACKUP"
-  check_backup "$COMMANDS_BACKUP" "$DOTFILES_DIR/claude/commands"
-  echo ""
-fi
-
-if [ -n "$SKILLS_BACKUP" ]; then
-  echo "Backup skills : $SKILLS_BACKUP"
-  check_backup "$SKILLS_BACKUP" "$DOTFILES_DIR/claude/skills"
-  echo ""
-fi
-
-if [ -z "$COMMANDS_BACKUP" ] && [ -z "$SKILLS_BACKUP" ]; then
-  info "Aucun backup créé."
-  echo ""
-fi
-
 echo "=== Installation terminée ==="
 echo ""
-echo "Lance Claude Code pour utiliser les commandes."
+echo "Ouvre une nouvelle session Claude Code ; les commandes s'appellent /forge:<nom>."
+echo "Liste des commandes : README.md"

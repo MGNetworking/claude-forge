@@ -1,0 +1,30 @@
+# Schéma du livrable « verdict » (rôles reviewer, relecteur), au format JSON Schema écrit en YAML.
+# Le programme (agent-engine) valide la FORME avec ce schéma, puis :
+#   - `a_corriger` contient au moins une remarque ; `a_clarifier` au moins une question ;
+#   - `accepte` ne laisse aucune question ouverte ;
+#   - chaque remarque cite un fichier modifié par le cycle.
+# Un verdict ne conclut jamais seul : `a_corriger` renvoie au travail, `a_clarifier` pose les questions à
+# l'utilisateur puis renvoie au travail ; `accepte` ne vaut que si les vérifications du projet passent aussi.
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: verdict
+type: object
+additionalProperties: false
+required: [decision]
+properties:
+  decision:
+    enum: [accepte, a_corriger, a_clarifier]
+  remarques:
+    description: Ce qu'il faut corriger, chaque remarque sur un fichier modifié.
+    type: array
+    items:
+      type: object
+      additionalProperties: false
+      required: [fichier, remarque]
+      properties:
+        fichier: { type: string, minLength: 1 }
+        ligne: { type: integer, minimum: 1 }
+        remarque: { type: string, minLength: 1 }
+  questions:
+    description: Ce que l'utilisateur doit trancher (besoin ambigu, choix laissé ouvert par la tâche).
+    type: array
+    items: { type: string, minLength: 1 }

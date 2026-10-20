@@ -1,0 +1,33 @@
+# Schéma du livrable « plan » (rôle architect), au format JSON Schema écrit en YAML.
+# Le programme valide la FORME avec ce schéma, puis la cohérence avec le dépôt :
+# chaque fichier « à modifier » existe, chaque fichier « à créer » n'existe pas.
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: plan
+type: object
+additionalProperties: false
+required: [resume, etapes, tests_prevus]
+properties:
+  resume:
+    type: string
+    minLength: 1
+  etapes:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      additionalProperties: false
+      required: [description]
+      properties:
+        description: { type: string, minLength: 1 }
+        fichiers_a_modifier: { type: array, items: { type: string } }
+        fichiers_a_creer: { type: array, items: { type: string } }
+  tests_prevus:
+    type: array
+    minItems: 1
+    items: { type: string, minLength: 1 }
+  questions:
+    description: >-
+      Ce que l'utilisateur doit trancher avant le code (besoin ambigu, valeur « à définir »). Le programme
+      les lui pose, puis fait refaire le plan avec ses réponses.
+    type: array
+    items: { type: string, minLength: 1 }

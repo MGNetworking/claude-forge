@@ -18,7 +18,7 @@ Si appelé seul (sans argument), poser les questions suivantes :
 
 2. **Nom de la branche principale** ? (défaut : `main`)
 
-Si appelé depuis `/git-setup`, utiliser les arguments fournis directement.
+Si appelé depuis `/forge:git-setup`, utiliser les arguments fournis directement.
 
 ---
 
