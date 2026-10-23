@@ -76,6 +76,7 @@ claude/                     le plugin « forge »
 │   ├── tester.md           écrit, avant le code, des tests qui doivent échouer
 │   ├── architect.md        rend un plan structuré, sans rien modifier
 │   ├── reviewer.md         rend un verdict structuré sur le changement, sans rien modifier
+│   ├── orchestrateur.md    découpe une demande et délègue à run et cycle (`agent orchestre`), sans rien modifier
 │   ├── redacteur.md        rédige un article Markdown        (exemple hors code)
 │   └── relecteur.md        rend un verdict sur un article     (exemple hors code)
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
@@ -161,7 +162,7 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ## 5. État actuel
 
-- La bibliothèque est publiée dans le plugin `forge@claude-forge`, version `0.4.1` (2026-10-20 : catalogue renommé `claude-forge`, anciennement `dotfiles` ; 0.4.0, 2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
+- La bibliothèque est publiée dans le plugin `forge@claude-forge`, version `0.5.0` (2026-10-23 : rôle `orchestrateur`, pour `agent orchestre` ; 0.4.1, 2026-10-20 : catalogue renommé `claude-forge`, anciennement `dotfiles` ; 0.4.0, 2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
 - agent-engine la trouve au lancement (`claude plugin list --json`) et y lit les **rôles** (`agent run`), les
   **cycles** et les **schémas** (`agent cycle`).
 - `agent cycle` exécute les quatre livrables : `fichiers`, `rouge`, `document` et `verdict`. Le livrable
