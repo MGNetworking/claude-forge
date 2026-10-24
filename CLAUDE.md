@@ -19,4 +19,5 @@ distribué par le catalogue `claude-forge` que constitue ce dépôt. Voir `READM
 - Toute commande s'appelle `/forge:<nom>` : une référence à une autre commande du plugin porte ce préfixe.
 - Un skill est un dossier `claude/skills/<nom>/SKILL.md` ; ses fichiers annexes sont à côté, en chemins relatifs.
 - Une commande ne doit pas être rangée dans un sous-dossier de `commands/` : le plugin ne la chargerait pas.
-- Après une modification, augmenter la `version` de `claude/.claude-plugin/plugin.json`.
+- Ne jamais modifier à la main la `version` de `claude/.claude-plugin/plugin.json` : Release Please la fixe
+  à chaque release, d'après les messages de commit (Conventional Commits : `feat` → mineure, `fix` → correctif).

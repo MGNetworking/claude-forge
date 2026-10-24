@@ -173,8 +173,8 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 ## 6. À faire dans claude-forge
 
 1. Relire les rôles et les cycles, et les ajuster : ce sont des propositions.
-2. À chaque modification de la bibliothèque, augmenter la `version` de `claude/.claude-plugin/plugin.json`,
-   puis relancer `install.ps1` / `install.sh` : agent-engine verra la nouvelle version au lancement suivant.
+2. Une modification de la bibliothèque est publiée par une release (Release Please, voir `README.md`), puis
+   `install.ps1` / `install.sh` : agent-engine verra la nouvelle version au lancement suivant.
 
 ---
 

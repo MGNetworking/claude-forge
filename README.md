@@ -91,8 +91,16 @@ Ouvrir ensuite une **nouvelle session** Claude Code.
 
 ### Mettre à jour
 
-Augmenter la `version` de `claude/.claude-plugin/plugin.json`, puis relancer le script d'installation : il
-met à jour le catalogue et le plugin.
+Les versions sont publiées par **Release Please** (`.github/workflows/release-please.yml`) :
+
+1. Après chaque fusion dans `master`, Release Please ouvre ou met à jour une **PR de release**. Elle calcule
+   la version d'après les messages de commit (`feat` → mineure, `fix` → correctif, `!` → majeure), met à
+   jour `CHANGELOG.md` et la `version` de `claude/.claude-plugin/plugin.json`.
+2. Fusionner cette PR crée le tag (`v0.7.0`…) et la release GitHub.
+3. Ramener `master` dans `develop`, puis relancer le script d'installation : il met à jour le catalogue et
+   le plugin.
+
+La `version` de `plugin.json` ne se modifie jamais à la main.
 
 ### Quelle version est utilisée
 
