@@ -162,7 +162,7 @@ ses contrôles propres (cohérence avec le dépôt, remarques qui citent le diff
 
 ## 5. État actuel
 
-- La bibliothèque est publiée dans le plugin `forge@claude-forge`, version `0.6.1` (2026-10-24 : l'orchestrateur ne pose une question que si un point bloque encore le travail ; 0.6.0, 2026-10-24 : l'orchestrateur délègue aussi un epic, avec son contexte et le classement de ses tickets ; 0.5.0, 2026-10-23 : rôle `orchestrateur`, pour `agent orchestre` ; 0.4.1, 2026-10-20 : catalogue renommé `claude-forge`, anciennement `dotfiles` ; 0.4.0, 2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
+- La bibliothèque est publiée dans le plugin `forge@claude-forge`, version `0.6.0` (2026-10-24 : l'orchestrateur délègue aussi un epic, avec son contexte et le classement de ses tickets ; 0.5.0, 2026-10-23 : rôle `orchestrateur`, pour `agent orchestre` ; 0.4.1, 2026-10-20 : catalogue renommé `claude-forge`, anciennement `dotfiles` ; 0.4.0, 2026-10-19 : nœud `tests` du `tester`, livrable `rouge`, dans le cycle `developpement`).
 - agent-engine la trouve au lancement (`claude plugin list --json`) et y lit les **rôles** (`agent run`), les
   **cycles** et les **schémas** (`agent cycle`).
 - `agent cycle` exécute les quatre livrables : `fichiers`, `rouge`, `document` et `verdict`. Le livrable
