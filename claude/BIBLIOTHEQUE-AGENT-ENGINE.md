@@ -82,6 +82,10 @@ claude/                     le plugin « forge »
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
 │   ├── developpement.yaml  architect → tester → coder → reviewer (a_corriger, a_clarifier → coder)
 │   └── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
+├── agent-skills/           CE QUE l'agent peut charger à la demande : une skill par dossier (SKILL.md), listée
+│                           dans l'en-tête des rôles qui y ont droit ; à part de skills/, que Claude Code
+│                           charge dans les sessions de l'utilisateur (aucune encore : écrite à la première
+│                           erreur répétée d'un agent)
 ├── schemas/                LA FORME des livrables structurés (JSON Schema écrit en YAML)
 │   ├── plan.yaml           livrable de l'architect
 │   └── verdict.yaml        livrable du reviewer et du relecteur
