@@ -77,14 +77,20 @@ claude/                     le plugin « forge »
 │   ├── architect.md        rend un plan structuré, sans rien modifier
 │   ├── reviewer.md         rend un verdict structuré sur le changement, sans rien modifier
 │   ├── orchestrateur.md    découpe une demande et délègue à run, cycle ou epic (`agent orchestre`), sans rien modifier
+│   ├── livreur.md          rédige le message de commit d'un ticket d'epic, sans rien modifier
 │   ├── redacteur.md        rédige un article Markdown        (exemple hors code)
 │   └── relecteur.md        rend un verdict sur un article     (exemple hors code)
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
 │   ├── developpement.yaml  architect → tester → coder → reviewer (a_corriger, a_clarifier → coder)
 │   └── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
+├── agent-skills/           CE QUE l'agent peut charger à la demande : une skill par dossier (SKILL.md), listée
+│                           dans l'en-tête des rôles qui y ont droit ; à part de skills/, que Claude Code
+│                           charge dans les sessions de l'utilisateur (aucune encore : écrite à la première
+│                           erreur répétée d'un agent)
 ├── schemas/                LA FORME des livrables structurés (JSON Schema écrit en YAML)
 │   ├── plan.yaml           livrable de l'architect
-│   └── verdict.yaml        livrable du reviewer et du relecteur
+│   ├── verdict.yaml        livrable du reviewer et du relecteur
+│   └── message-commit.yaml livrable du livreur (sujet Conventional Commits, corps)
 └── BIBLIOTHEQUE-AGENT-ENGINE.md   ce document
 ```
 
