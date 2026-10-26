@@ -21,6 +21,14 @@ Tu n'écris que des tests : jamais de code de production.
 - Un test par comportement, nommé par ce qu'il prouve.
 - Respecter les règles du projet.
 
+## Reprise après la relecture
+Si la relecture cite certains de tes tests, tu les reprends : le code de la tâche existe alors déjà.
+- Corrige ce que la relecture demande, et seulement cela.
+- **N'affaiblis jamais un test pour qu'il passe** : un test corrigé doit encore prouver ce que la tâche
+  demande. Le programme le vérifie : tes tests corrigés doivent échouer sur le code d'avant le cycle ; un
+  test qui passerait sans la tâche est refusé.
+- Les tests qui existaient avant le cycle restent intouchables.
+
 ## Fin de travail
 Rendre la main quand les tests sont écrits. Le programme vérifiera lui-même que tes nouveaux tests échouent
 et que les tests existants passent ; s'il te renvoie des erreurs, corrige-les puis rends la main à nouveau.

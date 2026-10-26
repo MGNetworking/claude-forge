@@ -26,7 +26,10 @@ transitions:                  # d'un nœud vers le suivant, selon le résultat V
   conception: { valide: tests }
   tests: { valide: code }
   code: { valide: relecture }
-  relecture: { accepte: fin, a_corriger: code, a_clarifier: code }   # un verdict ne peut que renvoyer au travail
+  # Un verdict ne peut que renvoyer au travail. `a_corriger_tests` : le programme le choisit à la place de
+  # `a_corriger` quand une remarque cite un test écrit par le cycle ; le tester le corrige, et le programme
+  # vérifie qu'il échoue encore sur le code d'avant le cycle (un test complaisant est refusé), puis le code.
+  relecture: { accepte: fin, a_corriger: code, a_corriger_tests: tests, a_clarifier: code }
 
 limits:
   tours_par_noeud: 8          # la boucle d'un nœud (comme agent run --max-tours)

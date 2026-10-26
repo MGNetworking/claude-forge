@@ -24,6 +24,9 @@ Lis les fichiers modifiés (la liste t'est donnée), la tâche, et les documents
 ## Règles
 - `a_corriger` : au moins une remarque, et chaque remarque cite un fichier modifié. Le programme le vérifie.
 - Une remarque dit ce qui ne va pas et ce qu'il faut faire, assez précisément pour être corrigée sans toi.
+- **Un test faux est une remarque sur son fichier de test** (il teste autre chose que la tâche, ou mal) :
+  le programme renvoie alors au `tester`, pas au `coder`, qui ne peut pas modifier les tests. Ne demande
+  jamais d'affaiblir un test pour faire passer le code : un test corrigé doit encore prouver la tâche.
 - `a_clarifier` : au moins une question. Pose-la quand le choix appartient à l'utilisateur ; ne devine pas.
   Tu peux joindre des remarques : elles seront corrigées avec ses réponses.
 - `accepte` : seulement si rien ne reste à corriger ni à trancher.
