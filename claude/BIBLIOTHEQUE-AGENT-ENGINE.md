@@ -81,7 +81,8 @@ claude/                     le plugin « forge »
 │   ├── redacteur.md        rédige un article Markdown        (exemple hors code)
 │   └── relecteur.md        rend un verdict sur un article     (exemple hors code)
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
-│   ├── developpement.yaml  architect → tester → coder → reviewer (a_corriger, a_clarifier → coder)
+│   ├── developpement.yaml  architect → tester → coder → reviewer (a_corriger, a_clarifier → coder ;
+│   │                       a_corriger_tests → tester)
 │   └── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
 ├── agent-skills/           CE QUE l'agent peut charger à la demande : une skill par dossier (SKILL.md), listée
 │                           dans l'en-tête des rôles qui y ont droit ; à part de skills/, que Claude Code
@@ -130,7 +131,7 @@ Format lu par `agent cycle` (agent-engine, 2026-10-15) :
 | `nodes.<nœud>.livrable` | Ce que le nœud doit produire, donc comment le programme le vérifie (tableau ci-dessous) |
 | `nodes.<nœud>.schema` | Le schéma de `schemas/` : obligatoire pour `document` ; `verdict` par défaut pour un livrable `verdict` |
 | `nodes.<nœud>.outils` | `lecture` : Read, Glob, Grep seulement. Absent : les outils d'écriture aussi |
-| `transitions.<nœud>` | Le nœud suivant selon le résultat vérifié : `valide` (`fichiers`, `document`), ou la décision du verdict (`accepte`, `a_corriger`, `a_clarifier`) ; `fin` termine le cycle |
+| `transitions.<nœud>` | Le nœud suivant selon le résultat vérifié : `valide` (`fichiers`, `document`), ou la décision du verdict (`accepte`, `a_corriger`, `a_clarifier`) ; `a_corriger_tests` (facultatif) : choisie par le programme à la place de `a_corriger` quand une remarque cite un test écrit par le cycle, vers le nœud `rouge` qui le corrige ; `fin` termine le cycle |
 | `limits` | `tours_par_noeud` (la boucle d'un nœud `fichiers`), `allers_retours` (retours au travail et demandes de précision) : bornent le coût |
 
 Les types de livrables, connus du programme :
