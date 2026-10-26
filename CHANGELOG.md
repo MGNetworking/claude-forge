@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.9.0](https://github.com/MGNetworking/claude-forge/compare/v0.8.0...v0.9.0) (2026-10-26)
+
+
+### Features
+
+* **agent-engine:** a review remark on a cycle test goes back to the tester ([9ba19e3](https://github.com/MGNetworking/claude-forge/commit/9ba19e333160989f2cc5e049e49ef82a7fd09337))
+* **agent-engine:** livreur agent with delivery tools; review sends cycle tests back to the tester ([1e04216](https://github.com/MGNetworking/claude-forge/commit/1e04216e38e305f86894781c339f5228b005b709))
+* **agent-engine:** livreur is an agent that delivers through its tools ([060021d](https://github.com/MGNetworking/claude-forge/commit/060021dfec3309517dca0856ff2429272a367fcd))
+
 ## [0.8.0](https://github.com/MGNetworking/claude-forge/compare/v0.7.0...v0.8.0) (2026-10-26)
 
 
