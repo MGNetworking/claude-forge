@@ -28,6 +28,23 @@ properties:
   questions:
     description: >-
       Ce que l'utilisateur doit trancher avant le code (besoin ambigu, valeur « à définir »). Le programme
-      les lui pose, puis fait refaire le plan avec ses réponses.
+      les lui pose, chacune avec ses choix numérotés et décrits, puis fait refaire le plan avec ses réponses.
     type: array
-    items: { type: string, minLength: 1 }
+    items:
+      type: object
+      additionalProperties: false
+      required: [question, choix]
+      properties:
+        question: { type: string, minLength: 1 }
+        choix:
+          description: >-
+            Les réponses possibles, chacune décrite : l'utilisateur répond par un numéro, ou écrit la sienne.
+          type: array
+          minItems: 2
+          items:
+            type: object
+            additionalProperties: false
+            required: [reponse, description]
+            properties:
+              reponse: { type: string, minLength: 1 }
+              description: { type: string, minLength: 1 }

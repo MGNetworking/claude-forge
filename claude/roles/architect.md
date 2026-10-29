@@ -35,7 +35,12 @@ etapes:
 tests_prevus:
   - "ce que le test prouve"
 questions:                # facultatif : ce que l'utilisateur doit trancher avant le code
-  - "la question, avec les options possibles"
+  - question: "ce que l'utilisateur doit trancher"
+    choix:                # au moins deux, chacun décrit : l'utilisateur répond par un numéro
+      - reponse: "la première option"
+        description: "ce qu'elle implique"
+      - reponse: "la seconde option"
+        description: "ce qu'elle implique"
 ```
 
 ## Fin de travail
