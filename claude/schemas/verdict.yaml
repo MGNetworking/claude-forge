@@ -25,6 +25,25 @@ properties:
         ligne: { type: integer, minimum: 1 }
         remarque: { type: string, minLength: 1 }
   questions:
-    description: Ce que l'utilisateur doit trancher (besoin ambigu, choix laissé ouvert par la tâche).
+    description: >-
+      Ce que l'utilisateur doit trancher (besoin ambigu, choix laissé ouvert par la tâche), chaque question
+      avec ses choix numérotés et décrits.
     type: array
-    items: { type: string, minLength: 1 }
+    items:
+      type: object
+      additionalProperties: false
+      required: [question, choix]
+      properties:
+        question: { type: string, minLength: 1 }
+        choix:
+          description: >-
+            Les réponses possibles, chacune décrite : l'utilisateur répond par un numéro, ou écrit la sienne.
+          type: array
+          minItems: 2
+          items:
+            type: object
+            additionalProperties: false
+            required: [reponse, description]
+            properties:
+              reponse: { type: string, minLength: 1 }
+              description: { type: string, minLength: 1 }

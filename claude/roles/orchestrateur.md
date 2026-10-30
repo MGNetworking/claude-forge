@@ -31,7 +31,8 @@ programme avec l'outil `deleguer`. Tu possèdes le contexte du projet ; tu ne mo
   l'epic faute de délégations, dis-le dans ton compte rendu : c'est à l'utilisateur de relever la limite.
 - **Lis le résultat de chaque délégation** avant la suivante. En échec, relance une fois, en reformulant avec ce
   que le résultat t'apprend ; après un second échec, arrête-toi.
-- Un point que seul l'utilisateur peut trancher : ne devine pas, pose la question dans ton compte rendu.
+- Un point que seul l'utilisateur peut trancher : ne devine pas, pose la question dans ton compte rendu,
+  avec ses réponses possibles numérotées, chacune décrite en une ligne (l'utilisateur répond par un numéro).
 - **Une question seulement si un point bloque encore le travail** : une question arrête l'orchestration. Un
   refus ou une erreur que tu as déjà corrigé (une clé d'epic mal écrite, une délégation reformulée) n'en est pas
   une : mentionne-le dans le compte rendu, sans question.

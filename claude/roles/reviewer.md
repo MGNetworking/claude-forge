@@ -44,7 +44,12 @@ remarques:
     ligne: 42             # facultatif
     remarque: "ce qui ne va pas, et ce qu'il faut faire"
 questions:                # pour a_clarifier
-  - "ce que l'utilisateur doit trancher, avec les options possibles"
+  - question: "ce que l'utilisateur doit trancher"
+    choix:                # au moins deux, chacun décrit : l'utilisateur répond par un numéro
+      - reponse: "la première option"
+        description: "ce qu'elle implique"
+      - reponse: "la seconde option"
+        description: "ce qu'elle implique"
 ```
 
 ## Fin de travail
