@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.10.0](https://github.com/MGNetworking/claude-forge/compare/v0.9.0...v0.10.0) (2026-10-30)
+
+
+### Features
+
+* **schemas:** les questions des agents portent leurs choix decrits ([2483f90](https://github.com/MGNetworking/claude-forge/commit/2483f90f70a239f136d2559a757d78a18d68ca2d))
+* **schemas:** les questions des agents portent leurs choix decrits ([1dd3f4e](https://github.com/MGNetworking/claude-forge/commit/1dd3f4eefa0c2975285f64e95cc3baf50c75a391))
+
 ## [0.9.0](https://github.com/MGNetworking/claude-forge/compare/v0.8.0...v0.9.0) (2026-10-26)
 
 
