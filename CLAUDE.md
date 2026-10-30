@@ -21,3 +21,15 @@ distribué par le catalogue `claude-forge` que constitue ce dépôt. Voir `READM
 - Une commande ne doit pas être rangée dans un sous-dossier de `commands/` : le plugin ne la chargerait pas.
 - Ne jamais modifier à la main la `version` de `claude/.claude-plugin/plugin.json` : Release Please la fixe
   à chaque release, d'après les messages de commit (Conventional Commits : `feat` → mineure, `fix` → correctif).
+
+## Les feuilles de route
+
+Chaque projet a la sienne, dans son `docs/feuille-de-route.md` ; un point qui touche un autre projet renvoie à sa
+feuille de route au lieu d'être recopié. forge sert les briques de Foundation : toutes sont chargées ici.
+
+- claude-forge : @docs/feuille-de-route.md
+- Foundation : @../IA/Foundation/docs/feuille-de-route.md
+- specbook : @../IA/Foundation/briques/specbook/docs/feuille-de-route.md
+- planforge : @../IA/Foundation/briques/planforge/docs/feuille-de-route.md
+- agent-engine : @../IA/Foundation/briques/agent-engine/docs/feuille-de-route.md
+- jira-sync : @../IA/Foundation/briques/jira-sync/docs/feuille-de-route.md
