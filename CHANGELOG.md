@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.10.1](https://github.com/MGNetworking/claude-forge/compare/v0.10.0...v0.10.1) (2026-11-03)
+
+
+### Bug Fixes
+
+* **orchestrateur:** le mode de travail est le choix de l'utilisateur ([43c8fbd](https://github.com/MGNetworking/claude-forge/commit/43c8fbdb3db4657f698f615b1a20cf103e63c867))
+* **orchestrateur:** le mode est le choix de l'utilisateur ([92dce07](https://github.com/MGNetworking/claude-forge/commit/92dce07731b1ba0499ad58cf4b50e534385d8f3f))
+
+
+### Documentation
+
+* feuille de route de claude-forge, toutes les feuilles de route chargees par CLAUDE.md ([7ddc89c](https://github.com/MGNetworking/claude-forge/commit/7ddc89c5ad78065860c7a5b7c6018361e64e6a47))
+
 ## [0.10.0](https://github.com/MGNetworking/claude-forge/compare/v0.9.0...v0.10.0) (2026-10-30)
 
 
