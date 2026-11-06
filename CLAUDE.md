@@ -33,3 +33,7 @@ feuille de route au lieu d'être recopié. forge sert les briques de Foundation 
 - planforge : @../Foundation/briques/planforge/docs/feuille-de-route.md
 - agent-engine : @../Foundation/briques/agent-engine/docs/feuille-de-route.md
 - jira-sync : @../Foundation/briques/jira-sync/docs/feuille-de-route.md
+
+## Second cerveau
+
+`projet: claude-forge` (règle des captures : `CLAUDE.md` global).
