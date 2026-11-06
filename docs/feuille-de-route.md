@@ -10,6 +10,6 @@ Ce qui reste à faire dans le plugin `forge`. Un point qui touche un autre proje
 ## Liens avec les autres feuilles de route
 
 - **agent-engine** : « Centraliser dans forge », côté lecture, dans la
-  [feuille de route d'agent-engine](../../IA/Foundation/briques/agent-engine/docs/feuille-de-route.md).
+  [feuille de route d'agent-engine](../../Foundation/briques/agent-engine/docs/feuille-de-route.md).
 - **Foundation** : forge cité comme prérequis de la chaîne, et la décision D6 (source de vérité des formats), dans la
-  [feuille de route de Foundation](../../IA/Foundation/docs/feuille-de-route.md).
+  [feuille de route de Foundation](../../Foundation/docs/feuille-de-route.md).

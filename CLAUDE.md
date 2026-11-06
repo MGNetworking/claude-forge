@@ -28,8 +28,8 @@ Chaque projet a la sienne, dans son `docs/feuille-de-route.md` ; un point qui to
 feuille de route au lieu d'être recopié. forge sert les briques de Foundation : toutes sont chargées ici.
 
 - claude-forge : @docs/feuille-de-route.md
-- Foundation : @../IA/Foundation/docs/feuille-de-route.md
-- specbook : @../IA/Foundation/briques/specbook/docs/feuille-de-route.md
-- planforge : @../IA/Foundation/briques/planforge/docs/feuille-de-route.md
-- agent-engine : @../IA/Foundation/briques/agent-engine/docs/feuille-de-route.md
-- jira-sync : @../IA/Foundation/briques/jira-sync/docs/feuille-de-route.md
+- Foundation : @../Foundation/docs/feuille-de-route.md
+- specbook : @../Foundation/briques/specbook/docs/feuille-de-route.md
+- planforge : @../Foundation/briques/planforge/docs/feuille-de-route.md
+- agent-engine : @../Foundation/briques/agent-engine/docs/feuille-de-route.md
+- jira-sync : @../Foundation/briques/jira-sync/docs/feuille-de-route.md

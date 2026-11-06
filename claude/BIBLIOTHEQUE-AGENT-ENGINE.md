@@ -1,11 +1,11 @@
 # Bibliothèque d'agent-engine
 
 Ce dossier `claude/` est le plugin Claude Code **`forge`**. En plus des commandes et skills de Claude Code, il
-contient la **bibliothèque** du moteur de boucle agentique **agent-engine** (`D:\Projet\IA\agent-engine`) : les
+contient la **bibliothèque** du moteur de boucle agentique **agent-engine** (`D:\Projet\agentic-os\Foundation\briques\agent-engine`) : les
 rôles, les cycles et les schémas de livrables. Ce document dit ce qu'elle contient, comment agent-engine la
 trouve, ses formats, ses règles, et ce qu'il reste à faire.
 
-La conception complète est dans agent-engine : `D:\Projet\IA\agent-engine\docs\ARCHITECTURE-AGENTIQUE.md`,
+La conception complète est dans agent-engine : `D:\Projet\agentic-os\Foundation\briques\agent-engine\docs\ARCHITECTURE-AGENTIQUE.md`,
 section 7 « La direction du projet ».
 
 ## Sommaire
