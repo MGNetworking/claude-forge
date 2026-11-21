@@ -1,0 +1,32 @@
+# Cycle « infrastructure » : un projet d'infrastructure déclarative (Ansible, manifests), de la tâche au
+# changement relu. Pas de nœud de tests écrits d'avance : les « tests » d'un tel projet sont ses contrôles en
+# lecture seule, qui tournent sur une machine et ne font jamais échouer un lint ; l'auteur les écrit avec le rôle,
+# et le profil du projet les protège (un contrôle existant ne peut qu'être complété).
+# La preuve vient du profil : lint à chaque tour (`done`), puis une fois (`final`) l'installation complète sur une
+# machine vierge et jetable, son rejeu sans changement et ses contrôles.
+name: infrastructure
+description: Concevoir, écrire les rôles et leurs contrôles, relire
+start: conception
+
+nodes:
+  conception:
+    role: concepteur-infra
+    livrable: document        # plan validé contre schemas/plan.yaml, puis contre le dépôt ; `tests_prevus` = les
+    schema: plan              # contrôles, le rejeu et le passage vierge ; ses `questions` vont à l'utilisateur
+    outils: lecture
+  ecriture:
+    role: auteur-infra
+    livrable: fichiers        # profil vert (done : lint ; final : machine vierge), projet modifié, contrôles intacts
+  relecture:
+    role: relecteur-infra
+    livrable: verdict         # accepte | a_corriger | a_clarifier
+    outils: lecture
+
+transitions:
+  conception: { valide: ecriture }
+  ecriture: { valide: relecture }
+  relecture: { accepte: fin, a_corriger: ecriture, a_clarifier: ecriture }
+
+limits:
+  tours_par_noeud: 8
+  allers_retours: 3           # chaque retour peut relancer le passage vierge (de 15 à 30 minutes)
