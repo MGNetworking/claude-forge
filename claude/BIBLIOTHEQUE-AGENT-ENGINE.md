@@ -1,11 +1,11 @@
 # Bibliothèque d'agent-engine
 
 Ce dossier `claude/` est le plugin Claude Code **`forge`**. En plus des commandes et skills de Claude Code, il
-contient la **bibliothèque** du moteur de boucle agentique **agent-engine** (`D:\Projet\agentic-os\Foundation\briques\agent-engine`) : les
+contient la **bibliothèque** du moteur de boucle agentique **agent-engine** (`D:\Projet\Agentique\Foundation\briques\agent-engine`) : les
 rôles, les cycles et les schémas de livrables. Ce document dit ce qu'elle contient, comment agent-engine la
 trouve, ses formats, ses règles, et ce qu'il reste à faire.
 
-La conception complète est dans agent-engine : `D:\Projet\agentic-os\Foundation\briques\agent-engine\docs\ARCHITECTURE-AGENTIQUE.md`,
+La conception complète est dans agent-engine : `D:\Projet\Agentique\Foundation\briques\agent-engine\docs\ARCHITECTURE-AGENTIQUE.md`,
 section 7 « La direction du projet ».
 
 ## Sommaire
@@ -79,11 +79,18 @@ claude/                     le plugin « forge »
 │   ├── orchestrateur.md    découpe une demande et délègue à run, cycle ou epic (`agent orchestre`), sans rien modifier
 │   ├── livreur.md          livre un travail fait par ses outils (voir_ticket, voir_changement, commiter)
 │   ├── redacteur.md        rédige un article Markdown        (exemple hors code)
-│   └── relecteur.md        rend un verdict sur un article     (exemple hors code)
+│   ├── relecteur.md        rend un verdict sur un article     (exemple hors code)
+│   ├── concepteur-infra.md rend le plan d'une tâche d'infrastructure déclarative (Ansible), sans rien modifier
+│   ├── auteur-infra.md     écrit les rôles, playbooks et contrôles jusqu'à ce que les vérifications passent
+│   └── relecteur-infra.md  rend un verdict sur un changement d'infrastructure (besoin, preuve, sécurité)
 ├── cycles/                 L'ENCHAÎNEMENT des nœuds
 │   ├── developpement.yaml  architect → tester → coder → reviewer (a_corriger, a_clarifier → coder ;
 │   │                       a_corriger_tests → tester)
-│   └── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
+│   ├── article.yaml        redacteur → relecteur (a_corriger, a_clarifier → redacteur)
+│   └── infrastructure.yaml concepteur-infra → auteur-infra → relecteur-infra (a_corriger, a_clarifier →
+│                           auteur-infra) ; pas de nœud de tests : les contrôles du projet, protégés par son
+│                           profil (`test_files`), en tiennent lieu, et le `final` du profil joue l'installation
+│                           complète sur une machine vierge
 ├── agent-skills/           CE QUE l'agent peut charger à la demande : une skill par dossier (SKILL.md), listée
 │                           dans l'en-tête des rôles qui y ont droit ; à part de skills/, que Claude Code
 │                           charge dans les sessions de l'utilisateur (aucune encore : écrite à la première

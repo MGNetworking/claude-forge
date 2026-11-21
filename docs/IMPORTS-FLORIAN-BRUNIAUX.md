@@ -9,7 +9,7 @@ des plugins publiés par Florian Bruniaux : ce qui peut être **repris tel quel*
 | Source | [FlorianBruniaux/claude-code-plugins](https://github.com/FlorianBruniaux/claude-code-plugins), commit `d48146a` (2026-09-01) |
 | Licence | MIT — « Copyright (c) 2026 Florian Bruniaux » |
 | Lu le | 2026-10-13 : les 14 agents, les skills `tdd-workflow`, `security-checklist`, `smart-explore`, `ast-grep-patterns`, `design-patterns`, `plan-pipeline`, `cyber-defense-team`, et les hooks de `security-suite` |
-| Référence côté moteur | `D:\Projet\agentic-os\Foundation\briques\agent-engine\docs\ARCHITECTURE-AGENTIQUE.md` (sections 2, 5, 7) et `agents-profils-skills.md` (section 5) |
+| Référence côté moteur | `D:\Projet\Agentique\Foundation\briques\agent-engine\docs\ARCHITECTURE-AGENTIQUE.md` (sections 2, 5, 7) et `agents-profils-skills.md` (section 5) |
 
 ## Sommaire
 
