@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.11.0](https://github.com/MGNetworking/claude-forge/compare/v0.10.1...v0.11.0) (2026-11-22)
+
+
+### Features
+
+* cycle infrastructure et roles concepteur-infra, auteur-infra, relecteur-infra ([c10b5ad](https://github.com/MGNetworking/claude-forge/commit/c10b5ad1afa8386db5220a163c16aa955fe68dd8))
+* cycle infrastructure, rôles infra et questions claires ([e982bbd](https://github.com/MGNetworking/claude-forge/commit/e982bbdb20ca99965683e2883eda4f10c09ea3e8))
+* questions claires dans les schémas plan et verdict ([c2abca9](https://github.com/MGNetworking/claude-forge/commit/c2abca951133986ff281e315fef8012042411e83))
+
+
+### Bug Fixes
+
+* rôles infra, versions exactes, forme relue, sans machine vierge supposée ([244c66b](https://github.com/MGNetworking/claude-forge/commit/244c66b26bbc17bc0e138bbdb416efaa213da22e))
+
+
+### Documentation
+
+* chemins mis a jour apres le deplacement dans agentic-os ([55ab525](https://github.com/MGNetworking/claude-forge/commit/55ab5251e12d98a44f24809460e7d362a8acf528))
+* chemins vers D:\Projet\Agentique au lieu de agentic-os ([df13b02](https://github.com/MGNetworking/claude-forge/commit/df13b0282991de206b142d91729b5d26960e0321))
+* declarer la cle de vault de claude-forge ([f171a8d](https://github.com/MGNetworking/claude-forge/commit/f171a8d30e977f3e557a7654d4df11da2bbd5b4d))
+* inventaire de ce que forge peut reprendre des plugins de Florian Bruniaux ([400f0f1](https://github.com/MGNetworking/claude-forge/commit/400f0f1f0088609d616fb74575801e6a1b323e31))
+
 ## [0.10.1](https://github.com/MGNetworking/claude-forge/compare/v0.10.0...v0.10.1) (2026-11-03)
 
 
