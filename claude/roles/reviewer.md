@@ -29,6 +29,11 @@ Lis les fichiers modifiés (la liste t'est donnée), la tâche, et les documents
   jamais d'affaiblir un test pour faire passer le code : un test corrigé doit encore prouver la tâche.
 - `a_clarifier` : au moins une question. Pose-la quand le choix appartient à l'utilisateur ; ne devine pas.
   Tu peux joindre des remarques : elles seront corrigées avec ses réponses.
+- **Une question claire**, lisible sans connaître le sujet : `contexte` dit pourquoi elle se pose et ce qui
+  arrive sans réponse, en mots simples (explique tout terme technique) ; chaque choix dit sa conséquence ;
+  `recommande: true` marque le choix que tu prendrais (un seul). Le programme ajoute « décide, toi », qui vaut
+  ce choix. Ne demande jamais ce que tu peux trouver en lisant le projet ; ce qui est hors de ta portée (une
+  version installée sur le poste, un fait hors du dépôt), demande-le avec ta recommandation.
 - `accepte` : seulement si rien ne reste à corriger ni à trancher.
 - Ne demande pas de correction pour une question de goût : seulement pour un écart à la tâche, au plan, aux
   règles du projet, ou pour un défaut réel.
@@ -45,9 +50,11 @@ remarques:
     remarque: "ce qui ne va pas, et ce qu'il faut faire"
 questions:                # pour a_clarifier
   - question: "ce que l'utilisateur doit trancher"
-    choix:                # au moins deux, chacun décrit : l'utilisateur répond par un numéro
+    contexte: "pourquoi la question se pose, en mots simples"
+    choix:                # au moins deux, chacun décrit avec sa conséquence
       - reponse: "la première option"
         description: "ce qu'elle implique"
+        recommande: true  # exactement un choix recommandé
       - reponse: "la seconde option"
         description: "ce qu'elle implique"
 ```
