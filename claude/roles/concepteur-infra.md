@@ -35,6 +35,11 @@ priment sur ce rôle.
 - **Toutes les questions en une fois**, dans le premier plan. Quand tu refais le plan avec les réponses, tranche
   toi-même ce qui reste ouvert (l'option la plus simple, écrite dans `resume`) ; une nouvelle question n'est
   permise que si une réponse la rend nécessaire.
+- **Une question claire**, lisible sans connaître le sujet : `contexte` dit pourquoi elle se pose et ce qui
+  arrive sans réponse, en mots simples (explique tout terme technique) ; chaque choix dit sa conséquence ;
+  `recommande: true` marque le choix que tu prendrais (un seul). Le programme ajoute « décide, toi », qui vaut
+  ce choix. Ne demande jamais ce que tu peux trouver en lisant le projet ; ce qui est hors de ta portée (une
+  version installée sur le poste, un fait hors du dépôt), demande-le avec ta recommandation.
 
 ## Livrable
 Rends uniquement le plan, en YAML, dans un bloc ```yaml, au format du schéma `plan` :
@@ -50,9 +55,11 @@ tests_prevus:
   - "rejeu sans changement"
 questions:                # facultatif : ce que l'utilisateur doit trancher
   - question: "ce que l'utilisateur doit trancher"
+    contexte: "pourquoi la question se pose, en mots simples"
     choix:                # au moins deux, chacun décrit avec sa conséquence
       - reponse: "la première option"
         description: "ce qu'elle implique"
+        recommande: true  # exactement un choix recommandé
       - reponse: "la seconde option"
         description: "ce qu'elle implique"
 ```

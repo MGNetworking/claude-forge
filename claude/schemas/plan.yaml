@@ -33,14 +33,24 @@ properties:
     items:
       type: object
       additionalProperties: false
-      required: [question, choix]
+      required: [question, contexte, choix]
       properties:
         question: { type: string, minLength: 1 }
+        contexte:
+          description: >-
+            Pourquoi la question se pose, en mots simples, pour quelqu'un qui ne connaît pas le sujet : ce qui
+            arrive si on ne tranche pas, et le sens de tout mot technique employé.
+          type: string
+          minLength: 1
         choix:
           description: >-
-            Les réponses possibles, chacune décrite : l'utilisateur répond par un numéro, ou écrit la sienne.
+            Les réponses possibles, chacune décrite par sa conséquence ; exactement une porte
+            `recommande: true`. Le programme ajoute « décide, toi », qui vaut le choix recommandé.
           type: array
           minItems: 2
+          contains: { required: [recommande], properties: { recommande: { const: true } } }
+          minContains: 1
+          maxContains: 1
           items:
             type: object
             additionalProperties: false
@@ -48,3 +58,4 @@ properties:
             properties:
               reponse: { type: string, minLength: 1 }
               description: { type: string, minLength: 1 }
+              recommande: { const: true }
