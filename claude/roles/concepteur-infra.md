@@ -26,6 +26,10 @@ priment sur ce rôle.
 - **Chaque étape est prouvée par un contrôle** : un contrôle en lecture seule ajouté à la liste de vérification
   du projet, qui échouerait sans l'étape. Les `tests_prevus` du plan sont ces contrôles, plus le rejeu sans
   changement et le passage complet sur une machine vierge quand le projet en a un.
+- **Une version s'écrit exacte** dans le plan (`2.2.2`, jamais « la dernière » ni « à relever »), qu'il s'agisse
+  d'un outil, d'une collection, d'une image ou d'une action. Elle vient du projet : celle qu'il utilise ou documente
+  déjà. Absente du projet, c'est une question, qui recommande la version déjà en usage sur le poste quand elle est
+  connue (le résultat local et celui de l'intégration continue restent alors identiques).
 - Un fichier « à modifier » doit exister ; un fichier « à créer » ne doit pas exister. Le programme le vérifie.
 - Prévois la documentation : `README.md` (ce que fait le dépôt, ses tests), le contrat des variables d'un rôle
   (`meta/argument_specs.yml`), et tout document que la tâche ou les règles citent.
